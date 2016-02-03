@@ -1,5 +1,6 @@
 package com.example.anna.ketoapp2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,24 +10,33 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.LinkedList;
+
 public class MainActivity extends AppCompatActivity {
+DatabaseHelper database;
+User user;
+       @Override
+       protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_main);
+                database = new DatabaseHelper(this);
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+                LinkedList<User> users= database.getUsers();
+                if(database.getUsers().size()==0)
+                {
+                 startActivity(new Intent(this, Registration.class));
+                }
+                else {
+                    user=users.getLast();
+                    ProtocolFragment protocolFragment=new ProtocolFragment();
+                    android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, protocolFragment);
+                    fragmentTransaction.commit();
+                 //startActivity(new Intent(this, Protocol.class));
+                }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
+       }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -43,10 +53,34 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_profile) {
+            ProfileFragment profileFragment=new ProfileFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container,profileFragment);
+            fragmentTransaction.commit();
+        }
+        else if(id == R.id.action_protocol)
+        {
+            ProtocolFragment protocolFragment=new ProtocolFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, protocolFragment);
+            fragmentTransaction.commit();
+
+        }
+        else if(id == R.id.action_switch)
+        {
+            /*SwitchUserFragment switchFragment=new SwitchUserFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, switchFragment);
+            fragmentTransaction.commit();*/
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public User getUser(){
+        LinkedList<User> users= database.getUsers();
+        user=users.getLast();
+        return user;
     }
 }

@@ -58,9 +58,8 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 }
                 else {
                     boolean success = db.Register(username.getText().toString(), password.getText().toString(), dateOfBirth.getText().toString(), insulinRegiment.getText().toString());
-                    if (success){}
-
-                        //startActivity(new Intent(this, Login.class));
+                    if (success)
+                        startActivity(new Intent(this, Protocol.class));
                 }
                 break;
         }
