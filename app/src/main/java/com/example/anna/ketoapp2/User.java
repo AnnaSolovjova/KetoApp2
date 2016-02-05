@@ -1,5 +1,7 @@
 package com.example.anna.ketoapp2;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Anna on 29/01/2016.
  */
@@ -9,6 +11,7 @@ public class User {
     private String dateOfBirth;
     private String insulinRegiment;
     private int usage;
+    private Bitmap profilePic;
 
     public String getUsername() {
         return username;
@@ -48,5 +51,13 @@ public class User {
 
     public void setUsage(int usage) {
         this.usage = usage;
+    }
+
+    public Bitmap getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(Bitmap profilePic) {
+        this.profilePic = profilePic;
     }
 }

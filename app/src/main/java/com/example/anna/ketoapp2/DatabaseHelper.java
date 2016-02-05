@@ -7,9 +7,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,17 +26,18 @@ import java.util.LinkedList;
  */
 public class DatabaseHelper extends SQLiteOpenHelper{
     private final static String DATABASE_NAME="DiabetesApp.db";
-
+    private static Context mContext;
 
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        mContext=context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            db.execSQL("create table Users( user_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, dateOfBirth TEXT,insulinRegiment TEXT, usage INT, regDateTime DATETIME)");
+            db.execSQL("create table Users( user_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, dateOfBirth TEXT,insulinRegiment TEXT, usage INT, regDateTime DATETIME,profilePic BLOB)");
             db.execSQL("create table Sessions( username TEXT PRIMARY KEY, insulin INT, iterations INT, screen TEXT, sesDateTime DATETIME");
         }
         catch(SQLException sqle)
@@ -49,18 +54,18 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public boolean Register(String username,String password,  String dateOfBirth, String insulinR) {
+    public boolean Register(String username,  String dateOfBirth, String insulinR) {
         try {
             //to do try if user exists
 
             SQLiteDatabase database = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put("username", username.trim());
-            contentValues.put("password", password.trim());
             contentValues.put("dateOfBirth", dateOfBirth);
             contentValues.put("insulinRegiment", insulinR);
             contentValues.put("usage", 1);
             contentValues.put("regDateTime", "datetime('now')");
+            contentValues.put("profilePic",insertPic(null).toByteArray());
             database.insert("Users", null, contentValues);
             return true;
         }
@@ -71,39 +76,22 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
 
-
-    public boolean login(String username,String password)
-    {
-        boolean success=false;
-        try {
-            SQLiteDatabase database = this.getReadableDatabase();
-            Cursor cursor = database.rawQuery("select username, password from Users where username='"+username.trim()+"'", null);
-            if (cursor.moveToFirst()) {
-                String pass=cursor.getString(1).trim();
-                success=pass.equals(password);
-            }
-        }
-        catch(SQLException e)
-        {
-            Log.d("login", e.toString());
-        }
-        return success;
-    }
-
-
     public User getUser(String username)
     {
         User user = new User();
 
         try {
             SQLiteDatabase database = this.getReadableDatabase();
-            Cursor cursor = database.rawQuery("select username, password, dateOfBirth, insulinRegiment from Users where username='"+username.trim()+"'", null);
+            Cursor cursor = database.rawQuery("select username, dateOfBirth, insulinRegiment,profilePic from Users where username='"+username.trim()+"'", null);
             if (cursor.moveToFirst()) {
 
                 user.setUsername(cursor.getString(0).trim());
-                user.setUsername( cursor.getString(0).trim());
-                user.setUsername( cursor.getString(0).trim());
-                user.setUsername( cursor.getString(0).trim());
+                user.setDateOfBirth(cursor.getString(1).trim());
+                user.setInsulinRegiment(cursor.getString(2).trim());
+                byte[] blob = cursor.getBlob(cursor.getColumnIndex("profilePic"));
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                user.setProfilePic(bitmap);
             }
 
 
@@ -120,13 +108,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         try {
             SQLiteDatabase database = this.getReadableDatabase();
-            Cursor cursor = database.rawQuery("select username, password, dateOfBirth, insulinRegiment from Users ", null);
+            Cursor cursor = database.rawQuery("select username, dateOfBirth, insulinRegiment,profilePic from Users ", null);
             while(cursor.moveToNext())
             {
                 User user=new User();
                 user.setUsername(cursor.getString(0).trim());
-                user.setDateOfBirth( cursor.getString(2).trim());
-                user.setInsulinRegiment( cursor.getString(3).trim());
+                user.setDateOfBirth( cursor.getString(1).trim());
+                user.setInsulinRegiment( cursor.getString(2).trim());
+                byte[] blob = cursor.getBlob(cursor.getColumnIndex("profilePic"));
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                user.setProfilePic(bitmap);
                 users.add(user);
             }
 
@@ -137,16 +129,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return users;
     }
 
-    public boolean editUser(String username, String newUsername, String password, String dateOfBirth, String insulinR)
+    public boolean editUser(String username, String newUsername, String dateOfBirth, String insulinR,Bitmap profilePic)
     {
         boolean success=false;
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("username", newUsername);
-            values.put("password", password);
             values.put("dateOfBirth", dateOfBirth);
             values.put("insulinRegiment", insulinR);
+            values.put("profilePic", insertPic(profilePic).toByteArray());
             db.update("Users", values, "username = '"+username+"'", null);
             success=true;
 
@@ -162,30 +154,25 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     {
         boolean success=false;
         try {
-            SQLiteDatabase database = this.getReadableDatabase();
-            Connection conn = DriverManager.getConnection(DATABASE_NAME);
-            PreparedStatement change = conn.prepareStatement("delete from Users where username=?");
-            change.setString(1,username );
-            change.executeQuery();
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete("Users", "username" + "='" + username+"'", null);
             deleteSession(username);
         }
         catch(SQLException e)
         {
             Log.d("login", e.toString());
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
         }
         return success;
     }
 
-    public int getUsage(String username, String password, String dateOfBirth, String insulinR)
+    public int getUsage(String username)
     {
         int pass=0;
         try {
             SQLiteDatabase database = this.getReadableDatabase();
             Cursor cursor = database.rawQuery("select usage from Users where username='" + username.trim() + "'", null);
             if (cursor.moveToFirst()) {
-                pass=cursor.getInt(1);
+                pass=cursor.getInt(0);
             }
         } catch (SQLException e)
         {
@@ -194,20 +181,21 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return pass;
 
     }
+    //check that working
     public boolean increaseUsage(String username)
     {
         boolean success=false;
         try {
-            SQLiteDatabase database = this.getReadableDatabase();
-            Connection conn = DriverManager.getConnection(DATABASE_NAME);
-            PreparedStatement change = conn.prepareStatement("Update Users set usage=usage+1 where username=?");
-            change.executeQuery();
+            int usage = getUsage(username);
+            usage++;
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("usage", usage);
+            db.update("Users", values, "username = '" + username + "'", null);
+
         }
-        catch(SQLException e)
-        {
+        catch(SQLException e) {
             Log.d("login", e.toString());
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
         }
         return success;
     }
@@ -215,24 +203,27 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void updateSession(String username, int insulin, int iteration, String screen)
     {
             boolean success=false;
-            PreparedStatement change;
+             SQLiteDatabase db = this.getWritableDatabase();
+             ContentValues values = new ContentValues();
             try {
+                values.put("insulin", insulin);
+                values.put("iterations", iteration);
+                values.put("screen", screen);
+                values.put("sesDateTime", "datetime()");
                 Connection conn = DriverManager.getConnection(DATABASE_NAME);
                 if(userExists(username)) {
-                    SQLiteDatabase database = this.getReadableDatabase();
-                    change = conn.prepareStatement("update Sessions set insulin = ?, iterations=?, screen=?, sesDateTime=datetime() where username=?");
-
+                    values.put("insulin", insulin);
+                    values.put("iterations", iteration);
+                    values.put("screen", screen);
+                    values.put("sesDateTime", "datetime()");
+                    db.update("Sessions", values, "username = '" + username + "'", null);
 
                 }
                 else{
-                     change = conn.prepareStatement("insert into Sessions ( insulin, iterations, screen,username,sesDateTime) values(?,?,?,?,datetime()) ");
+                     values.put("username",username);
+                     db.insert("Sessions",null,values);
 
                 }
-                change.setInt(1, insulin);
-                change.setInt(2, iteration);
-                change.setString(3, screen);
-                change.setString(4, username);
-                change.executeQuery();
 
             }
             catch(SQLException e)
@@ -249,17 +240,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     {
         boolean success=false;
         try {
-            SQLiteDatabase database = this.getReadableDatabase();
-            Connection conn = DriverManager.getConnection(DATABASE_NAME);
-            PreparedStatement change = conn.prepareStatement("delete from Session where username=?");
-            change.setString(1,username );
-            change.executeQuery();
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete("Sessions", "username" + "='" + username + "'", null);
         }
         catch(SQLException e)
         {
             Log.d("login", e.toString());
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
         }
         return success;
     }
@@ -269,11 +255,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         boolean exists = false;
         try {
             SQLiteDatabase database = this.getReadableDatabase();
-            Cursor cursor = database.rawQuery("select usernameusername='"+username.trim()+"'", null);
+            Cursor cursor = database.rawQuery("select usernameusername='" + username.trim() + "'", null);
             if (cursor.moveToFirst()) {
               exists=true;
             }
-
         }
         catch(SQLException e)
         {
@@ -284,7 +269,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
 
-
+    public ByteArrayOutputStream insertPic(Bitmap pic)
+    {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        if(pic==null) {
+            pic = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.defaultpic);
+        }
+        pic.compress(Bitmap.CompressFormat.PNG, 100, out);
+        return out;
+    }
 
 
 }

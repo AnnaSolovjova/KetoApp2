@@ -6,10 +6,20 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_profile" tools:context="com.example.anna.ketoapp2.Profile">
 
-            <TextView
+    <ImageButton
+        android:id="@+id/profile_pic_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        />
+
+    <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/toolbar"
+                android:layout_below="@id/profile_pic_edit"
                 android:text="Username"
                 android:id="@+id/username_edit_title"/>
             <EditText
@@ -37,7 +47,7 @@
                 android:text="Insulin Regiment"
                 android:layout_below="@id/dateOfBirth_edit"
                 android:id="@+id/insulinRegiment_edit_title"/>
-            <EditText
+            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/insulinRegiment_edit"

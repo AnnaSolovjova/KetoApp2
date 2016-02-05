@@ -35,37 +35,12 @@ android:orientation="vertical">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Insulin Regiment"/>
-        <EditText
-            android:layout_width="match_parent"
+        <Spinner
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/insulinRegiment"
             android:layout_marginBottom="10dp"/>
 
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Password"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/password"
-            android:inputType="textPassword"
-            android:layout_marginBottom="10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Repeat Password"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/newpassword"
-            android:inputType="textPassword"
-            android:layout_marginBottom="10dp"/>
 
         <Button
             android:layout_width="match_parent"
@@ -73,7 +48,8 @@ android:orientation="vertical">
             android:background="@color/colorButtons"
             android:textColor="@color/white"
             android:text="Register"
-            android:id="@+id/registerbutton"/>
+            android:id="@+id/registerbutton"
+            />
     </LinearLayout>
 </ScrollView>
 </LinearLayout>

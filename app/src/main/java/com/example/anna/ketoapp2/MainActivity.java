@@ -1,7 +1,10 @@
 package com.example.anna.ketoapp2;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +12,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 DatabaseHelper database;
 User user;
+String imageSelested;
+
        @Override
        protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -23,12 +29,15 @@ User user;
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
                 LinkedList<User> users= database.getUsers();
+
                 if(database.getUsers().size()==0)
                 {
                  startActivity(new Intent(this, Registration.class));
                 }
                 else {
+
                     user=users.getLast();
+                    database.increaseUsage(user.getUsername());
                     ProtocolFragment protocolFragment=new ProtocolFragment();
                     android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.fragment_container, protocolFragment);
@@ -80,7 +89,27 @@ User user;
 
     public User getUser(){
         LinkedList<User> users= database.getUsers();
-        user=users.getLast();
-        return user;
+        if(users.size()!=0) {
+            user = users.getLast();
+            return user;
+        }
+        else
+            return null;
+    }
+
+
+    public void loadImagefromGallery(View view) {
+        // Create intent to Open Image applications like Gallery, Google Photos
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        // Start the Intent
+        startActivityForResult(galleryIntent, 1);
+    }
+
+
+
+    public String getImageSelected()
+    {
+        return imageSelested;
     }
 }

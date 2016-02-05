@@ -11,26 +11,32 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class Registration extends AppCompatActivity implements View.OnClickListener {
     TextView error;
-    EditText password, passwordr,dateOfBirth,insulinRegiment,username;
+    EditText dateOfBirth,username;
+    Spinner insulinRegiment;
     Button registbutton;
     DatabaseHelper db;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter.createFromResource(this, R.array.insulin_regiment_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         username=(EditText)findViewById(R.id.username);
-        password=(EditText)findViewById(R.id.password);
-        passwordr=(EditText)findViewById(R.id.newpassword);
         dateOfBirth=(EditText)findViewById(R.id.dateOfBirth);
-        insulinRegiment=(EditText)findViewById(R.id.insulinRegiment);
+        insulinRegiment=(Spinner) findViewById(R.id.insulinRegiment);
+        insulinRegiment.setAdapter(staticAdapter);
         registbutton=(Button)findViewById(R.id.registerbutton);
         registbutton.setOnClickListener(this);
         registbutton.setOnClickListener(this);
@@ -42,7 +48,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.registerbutton:
-                if(username.getText().toString().matches("")|| password.getText().toString().matches("")|| insulinRegiment.getText().toString().matches("") ||  dateOfBirth.getText().toString().matches(""))
+                if(username.getText().toString().matches("")|| insulinRegiment.getSelectedItem().toString().matches("") ||  dateOfBirth.getText().toString().matches(""))
                 {
                     AlertDialog alertDialog = new AlertDialog.Builder(this).create(); //Read Update
                     alertDialog.setTitle("Error");
@@ -57,9 +63,9 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                     alertDialog.show();
                 }
                 else {
-                    boolean success = db.Register(username.getText().toString(), password.getText().toString(), dateOfBirth.getText().toString(), insulinRegiment.getText().toString());
+                    boolean success = db.Register(username.getText().toString(), dateOfBirth.getText().toString(), insulinRegiment.getSelectedItem().toString());
                     if (success)
-                        startActivity(new Intent(this, Protocol.class));
+                        startActivity(new Intent(this, MainActivity.class));
                 }
                 break;
         }

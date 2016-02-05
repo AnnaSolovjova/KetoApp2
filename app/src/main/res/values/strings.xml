@@ -6,6 +6,8 @@
     <string name="title_activity_switch">Switch User</string>
     <string name="protocol">Manage Highs</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="insulin_regiment_array">
+        <item>Insulin Pen</item>
+        <item>Insulin Pump</item>
+    </string-array>
 </resources>
