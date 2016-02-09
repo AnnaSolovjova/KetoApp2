@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,9 +85,11 @@ private View view;
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.insulin_regiment_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        View.OnFocusChangeListener ofcListener = new FocusChange(getContext());
         ((EditText) view.findViewById(R.id.username_edit)).setText(user.getUsername());
         ((Spinner) view.findViewById(R.id.insulinRegiment_edit)).setAdapter(staticAdapter);
         ((EditText) view.findViewById(R.id.dateOfBirth_edit)).setText(user.getDateOfBirth());
+        ((EditText) view.findViewById(R.id.dateOfBirth_edit)).setOnFocusChangeListener(ofcListener);
     }
 
     @Override
@@ -147,6 +150,12 @@ private View view;
         }
     }
 
+
+    private void hideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager)  getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+    }
+
     private void setViewLayout(int id){
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(id, null);
@@ -155,6 +164,7 @@ private View view;
         rootView.removeAllViews();
         rootView.addView(view);
     }
+
 
 
 }

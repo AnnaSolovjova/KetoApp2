@@ -18,8 +18,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Locale;
 
 /**
  * Created by Anna on 23/10/2015.
@@ -64,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             contentValues.put("dateOfBirth", dateOfBirth);
             contentValues.put("insulinRegiment", insulinR);
             contentValues.put("usage", 1);
-            contentValues.put("regDateTime", "datetime('now')");
+            contentValues.put("regDateTime", getDateTime());
             contentValues.put("profilePic",insertPic(null).toByteArray());
             database.insert("Users", null, contentValues);
             return true;
@@ -139,7 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             values.put("dateOfBirth", dateOfBirth);
             values.put("insulinRegiment", insulinR);
             values.put("profilePic", insertPic(profilePic).toByteArray());
-            db.update("Users", values, "username = '"+username+"'", null);
+            db.update("Users", values, "username = '" + username + "'", null);
             success=true;
 
         }
@@ -155,7 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         boolean success=false;
         try {
             SQLiteDatabase db = this.getWritableDatabase();
-            db.delete("Users", "username" + "='" + username+"'", null);
+            db.delete("Users", "username" + "='" + username + "'", null);
             deleteSession(username);
         }
         catch(SQLException e)
@@ -235,6 +237,47 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         }
 
+    public User getCurrent()
+    {
+        User user = new User();
+
+        try {
+            SQLiteDatabase database = this.getReadableDatabase();
+            Cursor cursor = database.rawQuery("select username, dateOfBirth, insulinRegiment,profilePic,regDateTime from Users order by regDateTime desc limit 1 ", null);
+            while (cursor.moveToNext()) {
+              String date=cursor.getString(cursor.getColumnIndex("regDateTime"));
+                user.setUsername(cursor.getString(0).trim());
+                user.setDateOfBirth(cursor.getString(1).trim());
+                user.setInsulinRegiment(cursor.getString(2).trim());
+                byte[] blob = cursor.getBlob(cursor.getColumnIndex("profilePic"));
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(blob);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                user.setProfilePic(bitmap);
+            }
+
+
+        }
+        catch(SQLException e)
+        {
+            Log.d("login", e.toString());
+        }
+        return user;
+    }
+
+    public void updateCurrent(String username){
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+           values.put("regDateTime", getDateTime());
+            db.update("Users", values, "username = '"+username+"'", null);
+
+        }
+        catch(SQLException e)
+        {
+            Log.d("login", e.toString());
+        }
+    }
+
 
     public boolean deleteSession(String username)
     {
@@ -255,7 +298,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         boolean exists = false;
         try {
             SQLiteDatabase database = this.getReadableDatabase();
-            Cursor cursor = database.rawQuery("select usernameusername='" + username.trim() + "'", null);
+            Cursor cursor = database.rawQuery("select username='" + username.trim() + "'", null);
             if (cursor.moveToFirst()) {
               exists=true;
             }
@@ -279,5 +322,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return out;
     }
 
+    private String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
 
 }

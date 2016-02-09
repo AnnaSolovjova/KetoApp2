@@ -1,17 +1,25 @@
 package com.example.anna.ketoapp2;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.LinkedList;
@@ -29,7 +37,6 @@ String imageSelested;
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
                 LinkedList<User> users= database.getUsers();
-
                 if(database.getUsers().size()==0)
                 {
                  startActivity(new Intent(this, Registration.class));
@@ -53,6 +60,7 @@ String imageSelested;
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -78,23 +86,36 @@ String imageSelested;
         }
         else if(id == R.id.action_switch)
         {
-            /*SwitchUserFragment switchFragment=new SwitchUserFragment();
+            SwitchFragment switchFragment=new SwitchFragment();
             android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, switchFragment);
-            fragmentTransaction.commit();*/
+            fragmentTransaction.commit();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     public User getUser(){
+            user = database.getCurrent();
+            return user;
+    }
+
+    public LinkedList<User> getUsers(){
         LinkedList<User> users= database.getUsers();
         if(users.size()!=0) {
-            user = users.getLast();
-            return user;
+           return users;
         }
         else
             return null;
+    }
+
+    public void switchUser(String username)
+    {
+        database.updateCurrent(username);
+        ProtocolFragment protocolFragment=new ProtocolFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, protocolFragment);
+        fragmentTransaction.commit();
     }
 
 
@@ -111,5 +132,10 @@ String imageSelested;
     public String getImageSelected()
     {
         return imageSelested;
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 }
