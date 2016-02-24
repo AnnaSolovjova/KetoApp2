@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_profile" tools:context="com.example.anna.ketoapp2.Profile">
+    tools:showIn="@layout/activity_profile" tools:context="com.example.anna.ketoapp2.Profile"
+    android:id="@+id/profile_edit">
 
     <ImageButton
         android:id="@+id/profile_pic_edit"
@@ -25,6 +26,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:id="@+id/username_edit"
                 android:layout_marginBottom="10dp"
                 android:layout_below="@id/username_edit_title"/>
@@ -34,13 +36,46 @@
                 android:text="Date of Birth"
                 android:layout_below="@id/username_edit"
                 android:id="@+id/dateOfBirth_edit_title"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/dateOfBirth_edit"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/dateOfBirth_edit_title"/>
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateOfBirth_edit"
+        android:layout_below="@id/dateOfBirth_edit_title">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="2"
+            android:inputType="number"
+            android:id="@+id/dateOfBirthDay_edit"
+            android:layout_marginBottom="10dp"
+            android:hint="DD"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="2"
+            android:inputType="number"
+            android:id="@+id/dateOfBirthMonth_edit"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/dateOfBirthDay_edit"
+            android:hint="MM"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:id="@+id/dateOfBirthYear_edit"
+            android:inputType="number"
+            android:maxLength="4"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/dateOfBirthMonth_edit"
+            android:hint="YYYY"/>
+    </LinearLayout>
+    </RelativeLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

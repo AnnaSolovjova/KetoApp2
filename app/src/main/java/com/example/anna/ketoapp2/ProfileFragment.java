@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -72,12 +73,13 @@ private View view;
         ((Button)view.findViewById(R.id.profile_del_button)).setOnClickListener(this);
         ((TextView) view.findViewById(R.id.username_text)).setText(user.getUsername());
         ((TextView) view.findViewById(R.id.insulin_text)).setText(user.getInsulinRegiment());
-        ((TextView) view.findViewById(R.id.age_text)).setText(user.getDateOfBirth());
+        ((TextView) view.findViewById(R.id.age_text)).setText(user.getDateOfBirth().substring(0,2)+"/"+user.getDateOfBirth().substring(2,4)+"/"+user.getDateOfBirth().substring(4,8));
 
     }
     public void setEditProfile(User user)
     {
-
+        FocusChange focusChange=new FocusChange(getContext());
+        ((RelativeLayout)view.findViewById(R.id.profile_edit)).setOnTouchListener(focusChange);
         ImageRounder rounder =new ImageRounder(getActivity());
         ((ImageButton) view.findViewById(R.id.profile_pic_edit)).setImageBitmap(rounder.getCroppedBitmap(user.getProfilePic(),200));
         ((Button)view.findViewById(R.id.profile_edit_comp_button)).setOnClickListener(this);
@@ -85,11 +87,11 @@ private View view;
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.insulin_regiment_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        View.OnFocusChangeListener ofcListener = new FocusChange(getContext());
         ((EditText) view.findViewById(R.id.username_edit)).setText(user.getUsername());
         ((Spinner) view.findViewById(R.id.insulinRegiment_edit)).setAdapter(staticAdapter);
-        ((EditText) view.findViewById(R.id.dateOfBirth_edit)).setText(user.getDateOfBirth());
-        ((EditText) view.findViewById(R.id.dateOfBirth_edit)).setOnFocusChangeListener(ofcListener);
+        ((EditText) view.findViewById(R.id.dateOfBirthDay_edit)).setText(user.getDateOfBirth().substring(0, 2));
+        ((EditText) view.findViewById(R.id.dateOfBirthMonth_edit)).setText(user.getDateOfBirth().substring(2, 4));
+        ((EditText) view.findViewById(R.id.dateOfBirthYear_edit)).setText(user.getDateOfBirth().substring(4,8));
     }
 
     @Override
@@ -112,12 +114,25 @@ private View view;
                 break;
             case R.id.profile_edit_comp_button:
                 String newU=((EditText)view.findViewById(R.id.username_edit)).getText().toString();
-                String newD=((EditText)view.findViewById(R.id.dateOfBirth_edit)).getText().toString();
+                String newD=((EditText)view.findViewById(R.id.dateOfBirthDay_edit)).getText().toString();
+                String newM=((EditText)view.findViewById(R.id.dateOfBirthMonth_edit)).getText().toString();
+                String newY=((EditText)view.findViewById(R.id.dateOfBirthYear_edit)).getText().toString();
                 String newI=((Spinner)view.findViewById(R.id.insulinRegiment_edit)).getSelectedItem().toString();
                 Bitmap newP=((BitmapDrawable)((ImageButton)view.findViewById(R.id.profile_pic_edit)).getDrawable()).getBitmap();
-                if( db.editUser(user.getUsername(),newU,newD,newI,newP));
-                setViewLayout(R.layout.fragment_profile);
-                setProfile(getUser());
+                if(newU.matches("")||newD.matches("")||newM.matches("")||newY.matches("")||newI.matches(""))
+                {
+                    Toast.makeText(getActivity(), "Please don't leave any blank fields",
+                            Toast.LENGTH_LONG).show();
+                }
+                else if(db.userExists(newU))
+                {
+                    Toast.makeText(getActivity(), "Such username already exists",
+                            Toast.LENGTH_LONG).show();
+                }
+                else{
+                    if( db.editUser(user.getUsername(),newU,newD+newM+newY,newI,newP));
+                    setViewLayout(R.layout.fragment_profile);
+                    setProfile(getUser());}
                 break;
             case R.id.profile_pic_edit:
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

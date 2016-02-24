@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_height="match_parent"
 android:layout_width="match_parent"
 android:padding="10dp"
-android:orientation="vertical">
-<ScrollView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+android:id="@+id/registration_layout">
+
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -19,17 +17,47 @@ android:orientation="vertical">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:id="@+id/username"
             android:layout_marginBottom="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date of Birth"/>
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/dateOfBirth"
-            android:layout_marginBottom="10dp"/>
+            android:orientation="horizontal">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="number"
+            android:maxLength="2"
+            android:id="@+id/dateOfBirthDay"
+            android:layout_marginBottom="10dp"
+            android:hint="DD"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="2"
+            android:inputType="number"
+            android:id="@+id/dateOfBirthMonth"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/dateOfBirthDay"
+            android:hint="MM"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="4"
+            android:id="@+id/dateOfBirthYear"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/dateOfBirthMonth"
+            android:hint="YYYY"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,15 +69,21 @@ android:orientation="vertical">
             android:id="@+id/insulinRegiment"
             android:layout_marginBottom="10dp"/>
 
-
-        <Button
-            android:layout_width="match_parent"
+            <RelativeLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorButtons"
-            android:textColor="@color/white"
-            android:text="Register"
-            android:id="@+id/registerbutton"
-            />
+            android:layout_alignParentBottom="true">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorButtons"
+                android:textColor="@color/white"
+                android:text="Register"
+                android:id="@+id/registerbutton"
+                android:layout_alignParentBottom="true"
+
+                />
+            </RelativeLayout>
     </LinearLayout>
-</ScrollView>
-</LinearLayout>
+
+</RelativeLayout>

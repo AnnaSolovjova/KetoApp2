@@ -298,7 +298,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         boolean exists = false;
         try {
             SQLiteDatabase database = this.getReadableDatabase();
-            Cursor cursor = database.rawQuery("select username='" + username.trim() + "'", null);
+            Cursor cursor = database.rawQuery("select username from Users where username='" + username.trim() + "'", null);
             if (cursor.moveToFirst()) {
               exists=true;
             }
