@@ -11,6 +11,22 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="TextFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+    <style name="RedTextFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/smaller_text_size</item>
+        <item name="android:textColor">#F13700</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+    <style name="ProfileTextFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/smaller_text_size</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:typeface">monospace</item>
+    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 

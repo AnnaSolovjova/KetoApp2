@@ -1,46 +1,175 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="com.example.anna.ketoapp.ProtocolProcess">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/part0"
+        android:layout_below="@id/toolbar"
+        android:layout_centerInParent="true"
+
+        >
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_heightPercent="85%"
+            android:gravity="center_vertical">
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/username_part">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Username:"
+                android:id="@+id/username_title"
+                android:layout_marginBottom="20dp"
+                style="@style/ProfileTextFont"
+                app:layout_widthPercent="50%"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="anna"
+                android:id="@+id/username_text"
+                android:layout_below="@id/toolbar"
+                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@+id/username_title"
+                style="@style/ProfileTextFont"/>
+        </android.support.percent.PercentRelativeLayout>
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username_part"
+            android:id="@+id/insulin_part"
+            >
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Insulin Regiment:"
+                android:id="@+id/insulin_title"
+                android:layout_marginBottom="20dp"
+                style="@style/ProfileTextFont"
+                app:layout_widthPercent="50%"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="solovjova"
+                android:id="@+id/insulin_text"
+                android:layout_below="@id/username_title"
+                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@+id/insulin_title"
+                style="@style/ProfileTextFont" />
+        </android.support.percent.PercentRelativeLayout>
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/insulin_part"
+            >
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Date of Birth:"
+                android:id="@+id/age_title"
+                android:layout_marginBottom="20dp"
+                style="@style/ProfileTextFont"
+                app:layout_widthPercent="50%"
+                />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="19"
+                android:id="@+id/age_text"
+                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@+id/age_title"
+                style="@style/ProfileTextFont"/>
+        </android.support.percent.PercentRelativeLayout>
+
+        </RelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp">
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:textColor="@color/white"
+                android:background="@color/colorButtons"
+                android:id="@+id/profile_correct_yes"
+                android:textAlignment="center"
+                android:layout_marginRight="5dp"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:textColor="@color/white"
+                android:background="@color/colorButtons"
+                android:id="@+id/profile_correct_no"
+                android:textAlignment="center"
+                android:layout_toRightOf="@id/profile_correct_yes"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/part1"
         android:layout_below="@id/toolbar"
         android:layout_centerInParent="true"
+        android:visibility="invisible"
         >
-        <RelativeLayout
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp">
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
                 android:text="Are you unwell?"
+                app:layout_heightPercent="85%"
                 android:id="@+id/unwell_text"
                 android:layout_below="@id/toolbar"
-                android:textAlignment="center"/>
-        </RelativeLayout>
+                android:textAlignment="center"
+                android:gravity="center_vertical"
+                style="@style/TextFont"
+                />
+        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:layout_margin="5dp"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="5dp">
+                android:layout_margin="5dp"
+                >
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="Yes"
                     android:textColor="@color/white"
                     android:background="@color/colorButtons"
                     android:id="@+id/unwell_yes"
                     android:textAlignment="center"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginRight="5dp"
+
+                    />
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="No"
                     android:textColor="@color/white"
                     android:background="@color/colorButtons"
@@ -60,31 +189,47 @@
         android:visibility="invisible"
 
         >
-        <LinearLayout
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/dander_signs_text">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Do you have any of danger symptoms?"
-            android:textAlignment="center"/>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Persistent vimiting"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"></TextView>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Heavy and rapid breathing"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"></TextView>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Abdominal pain"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"></TextView>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Moderate or severe dehydration"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"></TextView>
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_heightPercent="85%"
+                android:id="@+id/dander_signs_text"
+                android:gravity="center_vertical"
+                >
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Do you have any of danger symptoms?"
+                    android:textAlignment="center"
+                    style="@style/TextFont"
+                    android:layout_marginBottom="5dp"
+                    />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Persistent vimiting"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    style="@style/RedTextFont"></TextView>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Heavy and rapid breathing"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    style="@style/RedTextFont">></TextView>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Abdominal pain"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    style="@style/RedTextFont">></TextView>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Moderate or severe dehydration"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    style="@style/RedTextFont">></TextView>
+            </LinearLayout>
+        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -128,21 +273,32 @@
         android:id="@+id/part3"
         android:layout_below="@id/toolbar"
         android:layout_centerInParent="true"
-        android:visibility="invisible"
-        >
-
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="What is your blood glucose?"
-            android:id="@+id/glucose_input_text"
-            android:textAlignment="center"/>
-        <EditText
+        android:visibility="invisible" >
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:id="@+id/glucose_input_edit"
-            android:inputType="number"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@id/username_edit_title"/>
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="What is your blood glucose?"
+                        android:id="@+id/glucose_input_text"
+                        android:textAlignment="center"
+                        style="@style/TextFont"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:id="@+id/glucose_input_edit"
+                        android:inputType="number"
+                        android:layout_marginBottom="10dp"
+                        android:layout_below="@id/glucose_input_text"/>
+                </RelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -169,11 +325,21 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Is that a second pre-meal result greater than 17?"
-            android:id="@+id/premeal_text"
-            android:layout_below="@id/toolbar"
-            android:textAlignment="center"/>
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Is that a second pre-meal result greater than 10?"
+                android:id="@+id/premeal_text"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical"
+                android:layout_below="@id/toolbar"
+                android:textAlignment="center"
+                style="@style/TextFont"
+                />
+        </android.support.percent.PercentRelativeLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -217,12 +383,20 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Check your blood ketones. Are they more tham 1mmol/L?"
-            android:id="@+id/ketones_text"
-            android:layout_below="@id/toolbar"
-            android:textAlignment="center"/>
-
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Check your blood ketones. Are they more tham 1mmol/L?"
+                android:id="@+id/ketones_text"
+                android:layout_below="@id/toolbar"
+                android:textAlignment="center"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical"
+                style="@style/TextFont"/>
+        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -265,29 +439,39 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Please check your blood glucose again before meal in 4 hours"
-            android:id="@+id/remeasure_advise"
-            android:layout_below="@id/toolbar"
-            android:textAlignment="center"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Please check your blood glucose again before meal in 4 hours"
+                android:id="@+id/remeasure_advise"
+                android:layout_below="@id/toolbar"
+                android:textAlignment="center"
+                style="@style/TextFont"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical"
+                />
+        </android.support.percent.PercentRelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="5dp">
+
+            <Button
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="5dp">
-
-                <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Start Again"
-                    android:textColor="@color/white"
-                    android:background="@color/colorButtons"
-                    android:id="@+id/start_again1"
-                    android:textAlignment="center"
+                android:text="Start Again"
+                android:textColor="@color/white"
+                android:background="@color/colorButtons"
+                android:id="@+id/start_again1"
+                android:textAlignment="center"
 
 
-                    />
-            </RelativeLayout>
+                />
+        </RelativeLayout>
 
     </RelativeLayout>
     <RelativeLayout
@@ -298,12 +482,20 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="You might have established ketoacidosis. Urgent hospital assessment needed."
-            android:id="@+id/danger_advise"
-            android:layout_below="@id/toolbar"
-            android:textAlignment="center"/>
-
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="You might have established ketoacidosis. Urgent hospital assessment needed."
+                android:id="@+id/danger_advise"
+                android:layout_below="@id/toolbar"
+                android:textAlignment="center"
+                style="@style/TextFont"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical"/>
+        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -345,20 +537,33 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="What is your total daily dose of insulin? [TDD]"
-            android:id="@+id/insulin_text"
-            android:layout_below="@id/toolbar"
-            android:textAlignment="center"/>
-
-        <EditText
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:singleLine="true"
-            android:id="@+id/insulin_input_edit"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@id/insulin_text"/>
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="What is your total daily dose of insulin? [TDD]"
+                    android:id="@+id/insulin_input_text"
+                    android:layout_below="@id/toolbar"
+                    android:textAlignment="center"
+                    style="@style/TextFont"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:id="@+id/insulin_input_edit"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@id/insulin_input_text"/>
+            </RelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -384,12 +589,20 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Take 10 units of fast-acting insulin."
-            android:id="@+id/dosage_text"
-            android:layout_below="@id/toolbar"
-            android:textAlignment="center"
-            />
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Take 10 units of fast-acting insulin."
+                android:id="@+id/dosage_text"
+                android:layout_below="@id/toolbar"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical"
+                android:textAlignment="center"
+                style="@style/TextFont" />
+        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -415,12 +628,20 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Do you want application to remind you to check again your blood glucose and ketones in 4 hours?."
-            android:id="@+id/reminder_text"
-            android:layout_below="@id/toolbar"
-            android:textAlignment="center"/>
-
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Do you want application to remind you to check again your blood glucose and ketones in 4 hours?."
+                android:id="@+id/reminder_text"
+                android:layout_below="@id/toolbar"
+                android:textAlignment="center"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical"
+                style="@style/TextFont"/>
+        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -464,16 +685,29 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Check your blood glucose at least 4 times a day and your ketones at least 2 times a day until the things are settled."
-            android:id="@+id/measure_advice_text"
-            android:layout_below="@id/toolbar"
-            android:textAlignment="center"/>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="If ketones are more than 3mmol/L recheck your lood glucose and ketones every 2 hours;"
-            android:id="@+id/measure_advice_text2"
-            android:layout_below="@id/measure_advice_text"
-            android:textAlignment="center"/>
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Check your blood glucose at least 4 times a day and your ketones at least 2 times a day until the things are settled."
+                    android:id="@+id/measure_advice_text"
+                    android:layout_below="@id/toolbar"
+                    android:textAlignment="center"
+                    style="@style/TextFont"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="If ketones are more than 3mmol/L recheck your lood glucose and ketones every 2 hours;"
+                    android:id="@+id/measure_advice_text2"
+                    android:layout_below="@id/measure_advice_text"
+                    android:textAlignment="center"/>
+            </RelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -491,6 +725,182 @@
                     android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
         </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/part12"
+        android:layout_below="@id/toolbar"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        >
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Well done, your sugar level is acceptable!"
+                android:id="@+id/normal_glucose_advise"
+                android:layout_below="@id/toolbar"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical"
+                android:textAlignment="center"/>
+        </android.support.percent.PercentRelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="5dp"
+            >
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Again"
+                android:textColor="@color/white"
+                android:background="@color/colorButtons"
+                android:id="@+id/start_again4"
+                android:textAlignment="center"
+
+
+                />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/part13"
+        android:layout_below="@id/toolbar"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        >
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="You have had a high blood glucose and ketones for more than 12 hours, please call emergency or a doctor."
+                android:id="@+id/danger_advise2"
+                android:layout_below="@id/toolbar"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical"
+                android:textAlignment="center"
+                style="@style/TextFont"/>
+        </android.support.percent.PercentRelativeLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Emergency contacts"
+                    android:textColor="@color/white"
+                    android:background="@color/colorButtons"
+                    android:id="@+id/emergency_contact2"
+                    android:textAlignment="center" android:layout_marginRight="5dp"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Start Again"
+                    android:textColor="@color/white"
+                    android:background="@color/colorButtons"
+                    android:id="@+id/start_again5"
+                    android:textAlignment="center"
+                    android:layout_toRightOf="@id/emergency_contact"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/part14"
+        android:layout_below="@id/toolbar"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        >
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Hospital"
+                    android:id="@+id/emergency_title"
+                    android:textAlignment="center"
+                    style="@style/TextFont"/>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="999?"
+                    android:id="@+id/emergency_text"
+                    android:textAlignment="center"
+                    style="@style/TextFont"
+                    android:layout_below="@id/emergency_title"/>
+            </RelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username_edit_title"
+            android:layout_margin="5dp">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Again"
+                android:textColor="@color/white"
+                android:background="@color/colorButtons"
+                android:id="@+id/start_again6"
+                android:textAlignment="center"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="5dp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/part15"
+        android:layout_below="@id/toolbar"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        >
+        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_heightPercent="85%"
+                android:gravity="center_vertical">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Hospital"
+                    android:id="@+id/timer_text"
+                    android:textAlignment="center"
+                    style="@style/TextFont"/>
+
+            </RelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
+    </RelativeLayout>
+
+
 </RelativeLayout>
 
 

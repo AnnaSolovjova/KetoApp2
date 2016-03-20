@@ -124,7 +124,7 @@ private View view;
                     Toast.makeText(getActivity(), "Please don't leave any blank fields",
                             Toast.LENGTH_LONG).show();
                 }
-                else if(db.userExists(newU))
+                else if(db.userExists(newU)&&(!newU.equals(user.getUsername())))
                 {
                     Toast.makeText(getActivity(), "Such username already exists",
                             Toast.LENGTH_LONG).show();
