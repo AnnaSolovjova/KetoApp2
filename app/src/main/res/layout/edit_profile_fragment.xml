@@ -5,8 +5,14 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_profile" tools:context="com.example.anna.ketoapp2.Profile"
-    android:id="@+id/profile_edit">
-
+    android:id="@+id/profile_edit"
+    android:layout_margin="10dp">
+    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_pic_part"
+        >
     <ImageButton
         android:id="@+id/profile_pic_edit"
         android:layout_width="wrap_content"
@@ -16,13 +22,38 @@
         android:layout_centerHorizontal="true"
         android:background="@null"
         />
+    </android.support.percent.PercentRelativeLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollIndicators="right"
+        android:scrollbars="vertical"
+        android:layout_below="@id/edit_pic_part"
+        android:id="@+id/scroll_part"
+        android:layout_above="@+id/buttons"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_username_part"
+        android:layout_below="@id/edit_pic_part"
+        >
 
     <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/profile_pic_edit"
                 android:text="Username"
-                android:id="@+id/username_edit_title"/>
+                android:id="@+id/username_edit_title"
+                 style="@style/ProfileTextFont"
+                />
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,12 +61,21 @@
                 android:id="@+id/username_edit"
                 android:layout_marginBottom="10dp"
                 android:layout_below="@id/username_edit_title"/>
+    </android.support.percent.PercentRelativeLayout>
+    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_age_part"
+        android:layout_below="@id/edit_username_part"
+        >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date of Birth"
                 android:layout_below="@id/username_edit"
-                android:id="@+id/dateOfBirth_edit_title"/>
+                android:id="@+id/dateOfBirth_edit_title"
+                style="@style/ProfileTextFont"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,27 +116,58 @@
             android:hint="YYYY"/>
     </LinearLayout>
     </RelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
+    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_insulin_part"
+        android:layout_below="@id/edit_age_part"
+        >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Insulin Regiment"
                 android:layout_below="@id/dateOfBirth_edit"
-                android:id="@+id/insulinRegiment_edit_title"/>
-            <Spinner
+                android:id="@+id/insulinRegiment_edit_title"
+                style="@style/ProfileTextFont"/>
+
+            <include layout="@layout/insulinregiment"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_below="@id/insulinRegiment_edit_title"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    </LinearLayout>
+    </ScrollView>
+
+    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/buttons">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_heightPercent="15%"
+            >
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/insulinRegiment_edit"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/insulinRegiment_edit_title"
-                />
 
+                >
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorButtons"
                 android:textColor="@color/white"
-                android:text="Edit"
+                android:text="Save"
                 android:id="@+id/profile_edit_comp_button"
                 android:layout_alignParentBottom="true"/>
+            </LinearLayout>
+            </RelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
         </RelativeLayout>
 

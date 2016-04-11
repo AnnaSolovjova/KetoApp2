@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +25,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.ParseException;
 
 
 /**
@@ -38,7 +44,9 @@ public User user;
 DatabaseHelper db;
 public PendingIntent pendingIntent;
 private View view;
-    EditText username ,insulin ,age;
+RadioGroup regiment;
+EditText username ,insulin ,age;
+Validation validation;
     public ProfileFragment() {
        user=new User();
 
@@ -47,13 +55,12 @@ private View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-        view = inflater.inflate(R.layout.fragment_profile, container, false);
+              view = inflater.inflate(R.layout.fragment_profile, container, false);
         ((Button)view.findViewById(R.id.profile_edit_button)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.profile_del_button)).setOnClickListener(this);
         db=new DatabaseHelper(getActivity());
         setProfile(getUser());
+        validation =new Validation();
         return view;
     }
 
@@ -73,11 +80,14 @@ private View view;
         ((Button)view.findViewById(R.id.profile_del_button)).setOnClickListener(this);
         ((TextView) view.findViewById(R.id.username_text)).setText(user.getUsername());
         ((TextView) view.findViewById(R.id.insulin_text)).setText(user.getInsulinRegiment());
-        ((TextView) view.findViewById(R.id.age_text)).setText(user.getDateOfBirth().substring(0,2)+"/"+user.getDateOfBirth().substring(2,4)+"/"+user.getDateOfBirth().substring(4,8));
+        ((TextView) view.findViewById(R.id.age_text)).setText(user.getDateOfBirth().substring(0, 2) + "/" + user.getDateOfBirth().substring(2, 4) + "/" + user.getDateOfBirth().substring(4, 8));
 
     }
     public void setEditProfile(User user)
     {
+
+        regiment=(RadioGroup)view.findViewById(R.id.radioGroup2);
+        setRadioButtons(regiment);
         FocusChange focusChange=new FocusChange(getContext());
         ((RelativeLayout)view.findViewById(R.id.profile_edit)).setOnTouchListener(focusChange);
         ImageRounder rounder =new ImageRounder(getActivity());
@@ -88,7 +98,10 @@ private View view;
         // Specify the layout to use when the list of choices appears
         staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((EditText) view.findViewById(R.id.username_edit)).setText(user.getUsername());
-        ((Spinner) view.findViewById(R.id.insulinRegiment_edit)).setAdapter(staticAdapter);
+        if(user.getInsulinRegiment().equals("Insulin Pen"))
+            regiment.check(R.id.pen);
+        else
+            regiment.check(R.id.pump);
         ((EditText) view.findViewById(R.id.dateOfBirthDay_edit)).setText(user.getDateOfBirth().substring(0, 2));
         ((EditText) view.findViewById(R.id.dateOfBirthMonth_edit)).setText(user.getDateOfBirth().substring(2, 4));
         ((EditText) view.findViewById(R.id.dateOfBirthYear_edit)).setText(user.getDateOfBirth().substring(4,8));
@@ -96,7 +109,7 @@ private View view;
 
     @Override
     public void onClick(View v) {
-
+        String output;
         switch(v.getId()) {
 
             case R.id.profile_edit_button:
@@ -105,44 +118,66 @@ private View view;
                 break;
             case R.id.profile_del_button:
                 db.deleteUser(user.getUsername());
-                if(getUser()==null)
+                if (getUser() == null)
                     startActivity(new Intent(getActivity(), Registration.class));
-                else{
+                else {
                     setViewLayout(R.layout.fragment_profile);
                     setProfile(getUser());
                 }
                 break;
             case R.id.profile_edit_comp_button:
-                String newU=((EditText)view.findViewById(R.id.username_edit)).getText().toString();
-                String newD=((EditText)view.findViewById(R.id.dateOfBirthDay_edit)).getText().toString();
-                String newM=((EditText)view.findViewById(R.id.dateOfBirthMonth_edit)).getText().toString();
-                String newY=((EditText)view.findViewById(R.id.dateOfBirthYear_edit)).getText().toString();
-                String newI=((Spinner)view.findViewById(R.id.insulinRegiment_edit)).getSelectedItem().toString();
-                Bitmap newP=((BitmapDrawable)((ImageButton)view.findViewById(R.id.profile_pic_edit)).getDrawable()).getBitmap();
-                if(newU.matches("")||newD.matches("")||newM.matches("")||newY.matches("")||newI.matches(""))
-                {
+                String newU = ((EditText) view.findViewById(R.id.username_edit)).getText().toString();
+                String newD = ((EditText) view.findViewById(R.id.dateOfBirthDay_edit)).getText().toString();
+                String newM = ((EditText) view.findViewById(R.id.dateOfBirthMonth_edit)).getText().toString();
+                String newY = ((EditText) view.findViewById(R.id.dateOfBirthYear_edit)).getText().toString();
+                String newI = ((RadioButton) view.findViewById(regiment.getCheckedRadioButtonId())).getText().toString();
+                Bitmap newP = ((BitmapDrawable) ((ImageButton) view.findViewById(R.id.profile_pic_edit)).getDrawable()).getBitmap();
+                if (newU.matches("") || newD.matches("") || newM.matches("") || newY.matches("") || newI.matches("")) {
                     Toast.makeText(getActivity(), "Please don't leave any blank fields",
                             Toast.LENGTH_LONG).show();
-                }
-                else if(db.userExists(newU)&&(!newU.equals(user.getUsername())))
-                {
+                } else if (db.userExists(newU) && (!newU.equals(user.getUsername()))) {
                     Toast.makeText(getActivity(), "Such username already exists",
-                            Toast.LENGTH_LONG).show();
-                }
-                else{
-                    if( db.editUser(user.getUsername(),newU,newD+newM+newY,newI,newP));
-                    setViewLayout(R.layout.fragment_profile);
-                    setProfile(getUser());}
+                            Toast.LENGTH_LONG).show();}
+
+                else try {
+                        if ((output = validation.dateValidation(newD, newM, newY)) != null) {
+                                        Toast.makeText(getActivity(), output,
+                                                Toast.LENGTH_LONG).show();
+                                    }
+
+
+                        else{
+                            if( db.editUser(user.getUsername(),newU,newD+newM+newY,newI,newP));
+                            setViewLayout(R.layout.fragment_profile);
+                            setProfile(getUser());}
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 break;
             case R.id.profile_pic_edit:
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(galleryIntent, 1);
                 break;
-           // case R.id.profile_delete_comp_button:
-             //   break;
-
         }
 
+    }
+
+
+    private void setRadioButtons(RadioGroup reg) {
+        reg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.pen:
+                        break;
+                    case R.id.pump:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     @Override

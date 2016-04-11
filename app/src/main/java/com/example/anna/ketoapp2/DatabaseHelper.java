@@ -152,6 +152,25 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return success;
     }
 
+    public boolean editUser(String username, String newUsername, String dateOfBirth, String insulinR)
+    {
+        boolean success=false;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("username", newUsername);
+            values.put("dateOfBirth", dateOfBirth);
+            values.put("insulinRegiment", insulinR);
+            db.update("Users", values, "username = '" + username + "'", null);
+            success=true;
+
+        }
+        catch(SQLException e)
+        {
+            Log.d("login", e.toString());
+        }
+        return success;
+    }
     public boolean deleteUser(String username)
     {
         boolean success=false;
@@ -239,12 +258,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public User getCurrent()
     {
-        User user = new User();
+        User user = null;
 
         try {
             SQLiteDatabase database = this.getReadableDatabase();
             Cursor cursor = database.rawQuery("select username, dateOfBirth, insulinRegiment,profilePic,regDateTime from Users order by regDateTime desc limit 1 ", null);
             while (cursor.moveToNext()) {
+                user=new User();
               String date=cursor.getString(cursor.getColumnIndex("regDateTime"));
                 user.setUsername(cursor.getString(0).trim());
                 user.setDateOfBirth(cursor.getString(1).trim());
@@ -254,6 +274,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 user.setProfilePic(bitmap);
             }
+
 
 
         }
