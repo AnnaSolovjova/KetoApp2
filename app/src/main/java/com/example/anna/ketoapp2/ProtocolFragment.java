@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -48,6 +49,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     MainActivity myactivity;
     InputMethodManager inputMethodManager;
     Calendar cal;
+    boolean keyboard=false;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.fragment_protocol_process, container, false);
+
          db=new DatabaseHelper(getActivity());
          setUpProtocolProcedure();
          validation=new Validation();
@@ -72,6 +75,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             insulin=this.insulin;
             pr=this.pr;
             time=this.time;
+           //TODO
             if(glucose!=0)
                 ((EditText)view.findViewById(R.id.glucose_input_edit)).setText(""+glucose);
         }
@@ -372,6 +376,8 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         if (visibility == 2||visibility == 7) {
               showKeyboard(layout[visiable]);
         }
+        else
+            hideKeyboard(layout[visiable]);
         for (int i=0;i<layout.length;i++){
             if(i==visiable)
                 layout[i].setVisibility(view.VISIBLE);
@@ -402,16 +408,16 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             dosage = (double)((glucose - 8) / divider);
         }
         if(dosage>15)
-            dosage=15;
+            dosage = 15;
         return dosage;
     }
 
     private void showKeyboard(RelativeLayout linearLayout)
     {
-        inputMethodManager.toggleSoftInputFromWindow(linearLayout.getApplicationWindowToken(), InputMethodManager.RESULT_SHOWN, 0);
+        inputMethodManager.toggleSoftInputFromWindow(linearLayout.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
     }
     private void hideKeyboard(RelativeLayout linearLayout) {
 
-        inputMethodManager.hideSoftInputFromInputMethod(linearLayout.getApplicationWindowToken(), InputMethodManager.RESULT_HIDDEN);
+        inputMethodManager.hideSoftInputFromInputMethod(linearLayout.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
