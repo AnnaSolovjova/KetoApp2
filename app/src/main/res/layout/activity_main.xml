@@ -11,10 +11,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/toolbarid">
         <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
-            android:layout_width="match_parent" android:theme="@style/AppTheme.NoActionBar">
+            android:layout_width="match_parent" >
             <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
                 android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
+                android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:titleTextColor="@color/textColorPrimary"/>
             </android.support.design.widget.AppBarLayout>
     </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
@@ -24,7 +25,7 @@
         android:layout_gravity="top|end"
         android:layout_marginTop="?attr/actionBarSize"
         android:src="@mipmap/info"
-        app:backgroundTint="#FF785BF5"/>
+        app:backgroundTint="@color/actionFlowButton"/>
 
        <RelativeLayout
            android:layout_width="match_parent"

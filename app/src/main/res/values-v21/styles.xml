@@ -1,8 +1,11 @@
-<resources>>
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
+<resources>
+    <style name="KetoappTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:titleTextStyle">@style/MyActionBar</item>
     </style>
 </resources>

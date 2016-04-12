@@ -1,39 +1,30 @@
 package com.example.anna.ketoapp2;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Stack;
-
+/*
+*This class is the handler for the protocol user fragment
+* and the operations connected to this action,
+* including changing visibility of the layouts within the fragment,
+* populating views with the data, handling user input etc*/
 public class ProtocolFragment extends Fragment implements View.OnClickListener {
     Validation validation;
     View view;
@@ -49,12 +40,10 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     MainActivity myactivity;
     InputMethodManager inputMethodManager;
     Calendar cal;
-    boolean keyboard=false;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         setRetainInstance(true);
     }
 
@@ -62,25 +51,27 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.fragment_protocol_process, container, false);
-
+        Activity activity = getActivity();
+        myactivity = (MainActivity) activity;
          db=new DatabaseHelper(getActivity());
          setUpProtocolProcedure();
          validation=new Validation();
         inputMethodManager=(InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (savedInstanceState == null) {
-            visibility=this.visibility;
+           /* visibility=this.visibility;
             ketones=this.ketones;
             iteration=this.iteration;
             glucose=this.glucose;
             insulin=this.insulin;
             pr=this.pr;
-            time=this.time;
+            time=this.time;*/
            //TODO
             if(glucose!=0)
                 ((EditText)view.findViewById(R.id.glucose_input_edit)).setText(""+glucose);
         }
         else
         {
+            //set variables with the values saved on orientation change
             iteration=savedInstanceState.getInt("iteration");
             glucose=savedInstanceState.getDouble("glucose");;
             insulin=savedInstanceState.getInt("insulin");;
@@ -95,7 +86,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
 
 
-
+    //This method saves variables in the bundle to prevent loosing data on orientation chage
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt("ketones", ketones);
@@ -108,6 +99,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    //Method that tells what actions to do when the back button is pressed
     public void myOnKeyDown()
     {
         if(!pr.empty()) {
@@ -315,12 +307,12 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     }
     public User getUser()
     {
-        Activity activity = getActivity();
-        myactivity = (MainActivity) activity;
         user =myactivity.getUser();
         return user;
     }
 
+    //Method makes necessary setup for the layout
+    //including assignment of listeners
     private void setUpProtocolProcedure()
     {
         user=getUser();
@@ -370,6 +362,8 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    //This method is responsible for the visibility of the layouts within the view
+    //and calling the method to open the keyboard on the views when necessary
     private void setVisibility(int visiable)
     {
         visibility = visiable;
@@ -389,13 +383,15 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
 
 
+    //This method is responsible for generating the message about the insulin dosage shown on the screen
     private void dosageShow()
     {
         insulin=Integer.parseInt(((EditText) view.findViewById(R.id.insulin_input_edit)).getText().toString());
         ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("#.00").format(Dosage()) + " units of fast-acting insulin.");
     }
 
-
+    //This method is responsiable for calculating the dosage of the insulin
+    //according to the formula chosen considering several different values specified
     private double Dosage()
     {
         double dosage=0;
@@ -412,10 +408,13 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         return dosage;
     }
 
+    //Method that shows the soft keyboard on the screen
     private void showKeyboard(RelativeLayout linearLayout)
     {
         inputMethodManager.toggleSoftInputFromWindow(linearLayout.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
     }
+    //Method that tells not to open the keyboard if not explicitly stated.
+    //TODO:might check if that can be done once
     private void hideKeyboard(RelativeLayout linearLayout) {
 
         inputMethodManager.hideSoftInputFromInputMethod(linearLayout.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

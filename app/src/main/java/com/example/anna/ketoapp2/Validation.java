@@ -11,6 +11,7 @@ import java.util.Date;
 
 /**
  * Created by Anna on 08/04/2016.
+ * This class is used by other classes for calculations, formatting, and valitadion of the data
  */
 public class Validation {
 
@@ -52,6 +53,7 @@ SimpleDateFormat formatter ;
         }
 
     }
+    //This method specifies the time format when calendar returns the analogue time unspecified
     public String timeValidation (Calendar cal)
     {
         String time =cal.get(Calendar.HOUR)+":"+cal.get(Calendar.MINUTE);

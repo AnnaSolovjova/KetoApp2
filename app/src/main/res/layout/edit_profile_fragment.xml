@@ -161,7 +161,7 @@
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorButtons"
+                android:background="@drawable/buttons_config"
                 android:textColor="@color/white"
                 android:text="Save"
                 android:id="@+id/profile_edit_comp_button"

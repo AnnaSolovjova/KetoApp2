@@ -36,7 +36,10 @@ import java.text.ParseException;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ *This class is the handler for the profile fragment
+ * and the operations connected to this action,
+ * including with populating the views with the user data,
+ * handling user input for data change.
  */
 public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
@@ -46,6 +49,7 @@ public PendingIntent pendingIntent;
 private View view;
 RadioGroup regiment;
 EditText username ,insulin ,age;
+MainActivity myactivity;
 Validation validation;
     public ProfileFragment() {
        user=new User();
@@ -59,6 +63,8 @@ Validation validation;
         ((Button)view.findViewById(R.id.profile_edit_button)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.profile_del_button)).setOnClickListener(this);
         db=new DatabaseHelper(getActivity());
+        Activity activity = getActivity();
+        myactivity = (MainActivity) activity;
         setProfile(getUser());
         validation =new Validation();
         return view;
@@ -66,12 +72,11 @@ Validation validation;
 
     public User getUser()
     {
-        Activity activity = getActivity();
-        MainActivity myactivity = (MainActivity) activity;
-        user =myactivity.getUser();
-        return user;
+        return myactivity.getUser();
     }
 
+    //This method populates the views with the data from database
+    //when displaying profile
     public void setProfile(User user)
     {
         ImageRounder rounder =new ImageRounder(getActivity());
@@ -83,6 +88,8 @@ Validation validation;
         ((TextView) view.findViewById(R.id.age_text)).setText(user.getDateOfBirth().substring(0, 2) + "/" + user.getDateOfBirth().substring(2, 4) + "/" + user.getDateOfBirth().substring(4, 8));
 
     }
+    //This method populates the views with the data from database
+    //when displaying edit profile profile
     public void setEditProfile(User user)
     {
 
@@ -118,6 +125,7 @@ Validation validation;
                 break;
             case R.id.profile_del_button:
                 db.deleteUser(user.getUsername());
+                //TODO:move to activity
                 if (getUser() == null)
                     startActivity(new Intent(getActivity(), Registration.class));
                 else {
@@ -155,6 +163,7 @@ Validation validation;
                     }
                 break;
             case R.id.profile_pic_edit:
+                //Opens the system media storage for selecting the image
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(galleryIntent, 1);
                 break;
@@ -180,6 +189,7 @@ Validation validation;
         });
     }
 
+    //Method that handles data received when image file is selected from the gallery
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -200,11 +210,6 @@ Validation validation;
         }
     }
 
-
-    private void hideKeyboard() {
-        InputMethodManager inputMethodManager = (InputMethodManager)  getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-    }
 
     private void setViewLayout(int id){
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

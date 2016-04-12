@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="Register New User"
         android:textColor="@color/white"
-        android:background="@color/colorButtons"
+        android:background="@drawable/buttons_config"
         android:id="@+id/registerbutton"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"

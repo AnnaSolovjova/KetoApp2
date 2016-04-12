@@ -2,70 +2,57 @@ package com.example.anna.ketoapp2;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.style.StyleSpan;
-import android.text.style.TextAppearanceSpan;
-import android.util.AttributeSet;
-import android.util.Xml;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.xmlpull.v1.XmlPullParser;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 
-
+/*
+*This class is the handler for the switch user fragment
+* and the operations connected to this action,
+* including with populating the fragment with dynamically created views*/
 public class SwitchFragment extends Fragment implements View.OnClickListener{
     View view;
     DatabaseHelper db;
     LinkedList<User> users;
+    MainActivity myactivity;
     public SwitchFragment() {
         users=new LinkedList<User>();
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         view = inflater.inflate(R.layout.fragment_switch, container, false);
         ((Button)view.findViewById(R.id.registerbutton)).setOnClickListener(this);
         db=new DatabaseHelper(getActivity());
+        Activity activity = getActivity();
+        myactivity = (MainActivity) activity;
         getUsers();
         setButtons();
         return view;
     }
     public LinkedList<User> getUsers()
     {
-
-        Activity activity = getActivity();
-        MainActivity myactivity = (MainActivity) activity;
         users =myactivity.getUsers();
         return users;
     }
+
+    //This method create buttons that will be added to the view
+    //and sets these buttons
+    //One button for each user
     private void setButtons()
     {
-
-
         LinearLayout layout=(LinearLayout)view.findViewById(R.id.user_switch_buttons);
         for(User user : users) {
             LinearLayout listitem=new LinearLayout(getContext());
@@ -107,8 +94,6 @@ public class SwitchFragment extends Fragment implements View.OnClickListener{
             startActivity(new Intent(getActivity(), Registration.class));
         }
         else {
-            Activity activity = getActivity();
-            MainActivity myactivity = (MainActivity) activity;
             String username = v.getTag().toString();
             myactivity.switchUser(username);
         }

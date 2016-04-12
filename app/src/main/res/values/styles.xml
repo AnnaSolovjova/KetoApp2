@@ -1,16 +1,28 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorLinks</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="KetoappTheme" parent="KetoappTheme.Base">
+
     </style>
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
+
+    <style name="KetoappTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:titleTextStyle">@style/MyActionBar</item>
     </style>
+
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:titleTextStyle">@style/MyTextTitle</item>
+    </style>
+
+    <style name="MyTextTitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+
+
 
     <style name="TextFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">@dimen/text_size</item>
@@ -19,7 +31,7 @@
     </style>
     <style name="RedTextFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">@dimen/smaller_text_size</item>
-        <item name="android:textColor">#F13700</item>
+        <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:typeface">monospace</item>
     </style>
     <style name="ProfileTextFont" parent="@android:style/TextAppearance.Medium">
@@ -31,3 +43,5 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
+
+

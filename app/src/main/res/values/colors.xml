@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryDark">#ab2200</color>
-    <color name="colorPrimary">#E62E00</color>
-    <color name="colorLinks">#002DB3</color>
-    <color name="colorAccent">#FF3300</color>
-    <color name="colorButtons">#FF4D00</color>
+    <color name="colorPrimaryDark">#c72900</color>
+    <color name="colorPrimary">#ff4322</color>
+    <color name="colorButtonsDark">#ff4424</color>
+    <color name="colorButtonsLight">#ff5537</color>
+    <color name="colorAccent">#ff4322</color>
     <color name="white">#FFFFFF</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#9b2002</color>
+    <color name="actionFlowButton">#fb038af9</color>
+
+
+
 </resources>
+

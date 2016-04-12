@@ -25,6 +25,7 @@ import java.util.Locale;
 
 /**
  * Created by Anna on 23/10/2015.
+ * Class is needed to set up the database and provide methods for communication with it (CRUD operations)
  */
 public class DatabaseHelper extends SQLiteOpenHelper{
     private final static String DATABASE_NAME="DiabetesApp.db";
@@ -36,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         mContext=context;
     }
 
+    //Method creates two tables the application
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
@@ -56,6 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
+    //Method that creates the row for the new user
     public boolean Register(String username,  String dateOfBirth, String insulinR) {
         try {
             //to do try if user exists
@@ -77,7 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
-
+    //get user information on username
     public User getUser(String username)
     {
         User user = new User();
@@ -104,6 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
         return user;
     }
+    //Get the list of users
     public LinkedList<User> getUsers()
     {
         LinkedList<User> users = new LinkedList<>();
@@ -131,6 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return users;
     }
 
+    //Method that edits user information using the parameters passed
     public boolean editUser(String username, String newUsername, String dateOfBirth, String insulinR,Bitmap profilePic)
     {
         boolean success=false;
@@ -171,6 +176,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
         return success;
     }
+
     public boolean deleteUser(String username)
     {
         boolean success=false;
@@ -202,7 +208,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return pass;
 
     }
-    //check that working
+    //TODO:check that working
     public boolean increaseUsage(String username)
     {
         boolean success=false;
@@ -256,6 +262,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         }
 
+    //Method to get the current user
     public User getCurrent()
     {
         User user = null;
@@ -285,11 +292,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return user;
     }
 
+    //Method updates the registration date to the date when the user used the system for the last time.
+    // This is done to know which user information to open next time the application is open
     public void updateCurrent(String username){
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-           values.put("regDateTime", getDateTime());
+            values.put("regDateTime", getDateTime());
             db.update("Users", values, "username = '"+username+"'", null);
 
         }
@@ -314,6 +323,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return success;
     }
 
+    //Method checks if user exists
     public boolean userExists(String username)
     {
         boolean exists = false;
@@ -332,7 +342,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     }
 
-
+    //Inserts the default image for the profile on registration
     public ByteArrayOutputStream insertPic(Bitmap pic)
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();

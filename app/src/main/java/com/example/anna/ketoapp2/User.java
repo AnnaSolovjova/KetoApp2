@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 
 /**
  * Created by Anna on 29/01/2016.
+ * This class serves as a container for the user information
+ * Mostly populated from database
+ * Consists of number of Getters and Setters
  */
 public class User {
     private String username;
