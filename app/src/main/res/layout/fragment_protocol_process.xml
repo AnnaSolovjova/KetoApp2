@@ -277,6 +277,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:layout_margin="10dp"
             android:id="@+id/buttons2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -318,23 +319,18 @@
 
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/part3"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
-        android:visibility="invisible">
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
+        android:visibility="visible">
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_heightPercent="85%"
-                android:gravity="center_vertical"
-                >
+                android:layout_height="fill_parent"
+                android:layout_above="@+id/buttons3"
+                android:gravity="center"
+
                 >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:text="What is your blood glucose?"
@@ -350,12 +346,12 @@
                         android:layout_marginBottom="10dp"
                         android:layout_below="@id/glucose_input_text"/>
                 </RelativeLayout>
-        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:id="@+id/buttons3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/username_edit_title"
-            android:layout_margin="5dp">
+            android:layout_alignParentBottom="true"
+            >
 
                 <Button
                     android:layout_width="fill_parent"
@@ -365,48 +361,48 @@
                     android:background="@drawable/buttons_config"
                     android:id="@+id/glucose_next"
                     android:textAlignment="center"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginRight="5dp"/>
+                    android:padding="10dp"/>
         </RelativeLayout>
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/part4"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/buttons4"
+            android:gravity="center"
+            >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:text="Is that a second pre-meal result greater than 10?"
                 android:id="@+id/premeal_text"
-                app:layout_heightPercent="85%"
                 android:gravity="center_vertical"
                 android:layout_below="@id/toolbar"
                 android:textAlignment="center"
                 style="@style/TextFont"
                 />
-        </android.support.percent.PercentRelativeLayout>
+        </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:id="@+id/buttons4"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="5dp">
+                >
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Yes"
+                    android:padding="10dp"
                     android:textColor="@color/white"
                     android:background="@drawable/buttons_config"
                     android:id="@+id/premeal_yes"
@@ -417,6 +413,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="No"
+                    android:padding="10dp"
                     android:textColor="@color/white"
                     android:background="@drawable/buttons_config"
                     android:id="@+id/premeal_no"
@@ -428,39 +425,40 @@
 
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/part5"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/buttons5"
+            android:gravity="center"
+            >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:text="Check your blood ketones. Are they more tham 1mmol/L?"
                 android:id="@+id/ketones_text"
                 android:layout_below="@id/toolbar"
                 android:textAlignment="center"
-                app:layout_heightPercent="85%"
                 android:gravity="center_vertical"
                 style="@style/TextFont"/>
-        </android.support.percent.PercentRelativeLayout>
+        </RelativeLayout>
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:id="@+id/buttons5"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="5dp">
+                >
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:padding="10dp"
                     android:layout_height="wrap_content"
                     android:text="Yes"
                     android:textColor="@color/white"
@@ -473,6 +471,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="No"
+                    android:padding="10dp"
                     android:textColor="@color/white"
                     android:background="@drawable/buttons_config"
                     android:id="@+id/ketones_no"
@@ -484,56 +483,59 @@
 
     </RelativeLayout>
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/part6"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:text="Please check your blood glucose again before meal in 4 hours"
                 android:id="@+id/remeasure_advise"
                 android:layout_below="@id/toolbar"
                 android:textAlignment="center"
                 style="@style/TextFont"
-                app:layout_heightPercent="85%"
                 android:gravity="center_vertical"
                 />
-        </android.support.percent.PercentRelativeLayout>
+       </RelativeLayout>
 
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp"
         android:id="@+id/part7"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/buttons7"
+            android:gravity="center"
+            >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:text="You might have established ketoacidosis. Urgent hospital assessment needed."
                 android:id="@+id/danger_advise"
                 android:layout_below="@id/toolbar"
                 android:textAlignment="center"
                 style="@style/TextFont"
-                app:layout_heightPercent="85%"
                 android:gravity="center_vertical"/>
-        </android.support.percent.PercentRelativeLayout>
+        </RelativeLayout>
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:id="@+id/buttons7"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -542,29 +544,37 @@
                     android:background="@drawable/buttons_config"
                     android:id="@+id/emergency_contact"
                     android:textAlignment="center"
-                    android:layout_margin="5dp"/>
-
+                    android:padding="10dp"/>
+    </LinearLayout>
         </RelativeLayout>
 
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/part8"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
-            <RelativeLayout
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/buttons8"
+            android:gravity="center"
+            >
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scrollIndicators="right"
+                android:scrollbars="vertical"
+
+                >
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_heightPercent="85%"
-                android:gravity="center_vertical">
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                >
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:text="What is your total daily dose of insulin? [TDD]"
                     android:id="@+id/insulin_input_text"
@@ -580,13 +590,15 @@
                     android:id="@+id/insulin_input_edit"
                     android:layout_marginBottom="10dp"
                     android:layout_below="@id/insulin_input_text"/>
+            </LinearLayout>
+            </ScrollView>
             </RelativeLayout>
-        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
+            android:id="@+id/buttons8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="5dp">
+            >
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -595,37 +607,38 @@
                     android:background="@drawable/buttons_config"
                     android:id="@+id/insulin_next"
                     android:textAlignment="center"
-                    android:layout_alignParentBottom="true"/>
+                    android:padding="10dp"
+                    />
 
     </RelativeLayout>
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/part9"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/buttons9"
+            android:gravity="center"
+            >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:text="Take 10 units of fast-acting insulin."
                 android:id="@+id/dosage_text"
                 android:layout_below="@id/toolbar"
-                app:layout_heightPercent="85%"
                 android:gravity="center_vertical"
                 android:textAlignment="center"
                 style="@style/TextFont" />
-        </android.support.percent.PercentRelativeLayout>
+      </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/buttons9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="5dp">
+            >
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -633,42 +646,42 @@
             android:textColor="@color/white"
             android:background="@drawable/buttons_config"
             android:id="@+id/dosage_next"
-            android:textAlignment="center"
-            android:layout_alignParentBottom="true"/>
+            android:padding="10dp"
+            android:textAlignment="center" />
     </RelativeLayout>
 
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/part10"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/buttons10"
+            android:gravity="center"
+            >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:text="Do you want application to remind you to check again your blood glucose and ketones in 4 hours?."
                 android:id="@+id/reminder_text"
                 android:layout_below="@id/toolbar"
                 android:textAlignment="center"
-                app:layout_heightPercent="85%"
                 android:gravity="center_vertical"
                 style="@style/TextFont"/>
-        </android.support.percent.PercentRelativeLayout>
+        </RelativeLayout>
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:id="@+id/buttons10"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="5dp">
+                >
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -678,7 +691,8 @@
                     android:background="@drawable/buttons_config"
                     android:id="@+id/reminder_yes"
                     android:textAlignment="center"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginRight="5dp"
+                    android:padding="10dp"/>
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -688,6 +702,7 @@
                     android:background="@drawable/buttons_config"
                     android:id="@+id/reminder_no"
                     android:textAlignment="center"
+                    android:padding="10dp"
                     android:layout_toRightOf="@id/reminder_yes"
                     />
             </LinearLayout>
@@ -696,34 +711,30 @@
 
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/part11"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_heightPercent="85%"
-                android:gravity="center_vertical">
-                <ScrollView
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:scrollIndicators="right"
-                    android:scrollbars="vertical"
-                    android:fillViewport="true">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            >
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scrollIndicators="right"
+                android:scrollbars="vertical"
+
+                >
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="fill_parent"
                     android:orientation="vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    >
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:text="Check your blood glucose at least 4 times a day and your ketones at least 2 times a day until the things are settled."
                     android:id="@+id/measure_advice_text"
@@ -738,65 +749,58 @@
                 </LinearLayout>
                 </ScrollView>
             </RelativeLayout>
-        </android.support.percent.PercentRelativeLayout>
+       </RelativeLayout>
 
-
-        </RelativeLayout>
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/part12"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:text="Well done, your sugar level is acceptable!"
                 android:id="@+id/normal_glucose_advise"
                 android:layout_below="@id/toolbar"
-                app:layout_heightPercent="85%"
                 android:gravity="center_vertical"
                 style="@style/ProfileTextFont"
                 android:textAlignment="center"/>
-        </android.support.percent.PercentRelativeLayout>
+        </RelativeLayout>
 
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/part13"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/buttons4">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_heightPercent="85%"
-                android:gravity="center_vertical">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/buttons13"
+            android:gravity="center"
+            >
             <ScrollView
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:scrollIndicators="right"
                 android:scrollbars="vertical"
-                android:fillViewport="true">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:text="You have had a high blood glucose and ketones for more than 12 hours, please call emergency or a doctor."
                 android:id="@+id/danger_advise2"
@@ -807,19 +811,14 @@
             </LinearLayout>
             </ScrollView>
             </RelativeLayout>
-        </android.support.percent.PercentRelativeLayout>
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="5dp"
-            android:id="@+id/buttons4">
         <RelativeLayout
+            android:id="@+id/buttons13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_heightPercent="15%"
-            >
+            android:layout_alignParentBottom="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -828,40 +827,36 @@
                     android:background="@drawable/buttons_config"
                     android:id="@+id/emergency_contact2"
                     android:textAlignment="center"
-                    android:layout_margin="5dp"/>
+                    android:padding="10dp"/>
+            </LinearLayout>
         </RelativeLayout>
-        </android.support.percent.PercentRelativeLayout>
 
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/part14"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_heightPercent="85%"
-                android:gravity="center_vertical">
-                <ScrollView
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:scrollIndicators="right"
-                    android:scrollbars="vertical"
-                    android:fillViewport="true">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            >
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scrollIndicators="right"
+                android:scrollbars="vertical"
+
+                >
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="fill_parent"
                     android:orientation="vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    >
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:text="NHS Emergency"
                     android:id="@+id/emergency_title"
@@ -876,35 +871,24 @@
                 </LinearLayout>
                 </ScrollView>
             </RelativeLayout>
-        </android.support.percent.PercentRelativeLayout>
-
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/part15"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_heightPercent="85%"
                 android:gravity="center_vertical">
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:text="Hospital"
                     android:id="@+id/timer_text"
                     android:textAlignment="center"
                     style="@style/TextFont"/>
-
             </RelativeLayout>
-        </android.support.percent.PercentRelativeLayout>
     </RelativeLayout>
 
 
