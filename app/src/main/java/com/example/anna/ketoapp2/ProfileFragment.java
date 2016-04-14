@@ -59,14 +59,14 @@ Validation validation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-              view = inflater.inflate(R.layout.fragment_profile, container, false);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
         ((Button)view.findViewById(R.id.profile_edit_button)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.profile_del_button)).setOnClickListener(this);
         db=new DatabaseHelper(getActivity());
         Activity activity = getActivity();
         myactivity = (MainActivity) activity;
-        setProfile(getUser());
         validation =new Validation();
+        setProfile(getUser());
         return view;
     }
 
@@ -86,7 +86,6 @@ Validation validation;
         ((TextView) view.findViewById(R.id.username_text)).setText(user.getUsername());
         ((TextView) view.findViewById(R.id.insulin_text)).setText(user.getInsulinRegiment());
         ((TextView) view.findViewById(R.id.age_text)).setText(user.getDateOfBirth().substring(0, 2) + "/" + user.getDateOfBirth().substring(2, 4) + "/" + user.getDateOfBirth().substring(4, 8));
-
     }
     //This method populates the views with the data from database
     //when displaying edit profile profile

@@ -2,14 +2,15 @@
 <resources>
     <color name="colorPrimaryDark">#c72900</color>
     <color name="colorPrimary">#ff4322</color>
-    <color name="colorButtonsDark">#ff4424</color>
-    <color name="colorButtonsLight">#ff5537</color>
+    <color name="colorButtonsDark">#ff3613</color>
+    <color name="colorButtonsLight">#ff684d</color>
     <color name="colorAccent">#ff4322</color>
     <color name="white">#FFFFFF</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#9b2002</color>
-    <color name="actionFlowButton">#fb038af9</color>
+    <color name="actionFlowButtonDark">#036af9</color>
+    <color name="actionFlowButtonLight">#3b8dff</color>
 
 
 

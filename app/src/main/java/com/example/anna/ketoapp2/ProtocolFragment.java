@@ -42,6 +42,19 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     Calendar cal;
 
     @Override
+    public void onStart() {
+        super.onStart();
+        setUpProtocolProcedure();
+        setVisibility(visibility);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        hideKeyboard(layout[visibility]);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
@@ -54,7 +67,6 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         Activity activity = getActivity();
         myactivity = (MainActivity) activity;
          db=new DatabaseHelper(getActivity());
-         setUpProtocolProcedure();
          validation=new Validation();
         inputMethodManager=(InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (savedInstanceState == null) {
@@ -80,7 +92,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             time=savedInstanceState.getString("time");
             pr=(Stack)savedInstanceState.getSerializable("stack");
         }
-        setVisibility(visibility);
+
         return view;
     }
 
@@ -411,12 +423,13 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     //Method that shows the soft keyboard on the screen
     private void showKeyboard(RelativeLayout linearLayout)
     {
-        inputMethodManager.toggleSoftInputFromWindow(linearLayout.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+            inputMethodManager.toggleSoftInputFromWindow(linearLayout.getApplicationWindowToken(), InputMethodManager.SHOW_IMPLICIT, 0);
     }
     //Method that tells not to open the keyboard if not explicitly stated.
     //TODO:might check if that can be done once
     private void hideKeyboard(RelativeLayout linearLayout) {
 
-        inputMethodManager.hideSoftInputFromInputMethod(linearLayout.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            inputMethodManager.hideSoftInputFromWindow(linearLayout.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
     }
 }

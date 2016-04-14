@@ -23,7 +23,6 @@ public class FocusChange  implements View.OnTouchListener {
             if(!(view instanceof EditText)) {
                 InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
             }
             return false;
         }

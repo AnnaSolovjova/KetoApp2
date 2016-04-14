@@ -15,6 +15,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/KetoappTheme.Base"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +26,7 @@
         <activity
             android:name=".Registration"
             android:label="@string/title_activity_registration"
-            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/KetoappTheme" >
         </activity>
 

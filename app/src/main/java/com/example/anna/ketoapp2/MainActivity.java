@@ -207,15 +207,17 @@ FloatingActionButton fab;
     public void switchUser(String username)
     {
         database.updateCurrent(username);
-        getUsers().getLast();
+        user=database.getCurrent();
         //protocolFragment = new ProtocolFragment();
         menu.check(R.id.radioAgain);
         fab.show();
 
     }
 
-    public void setupTabs(){}
 
-
+    public RelativeLayout returnScreen()
+        {
+                return (RelativeLayout)findViewById(R.id.main_screen);
+    }
 
 }

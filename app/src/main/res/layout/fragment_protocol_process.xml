@@ -1,36 +1,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.example.anna.ketoapp.ProtocolProcess">
+    android:layout_height="fill_parent" tools:context="com.example.anna.ketoapp.ProtocolProcess"
+    >
 
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/part0"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true">
+        android:layout_height="fill_parent"
+        android:id="@+id/part0">
 
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_above="@+id/buttons1">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_heightPercent="85%"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/buttons"
+            android:gravity="center"
            >
             <ScrollView
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
+                android:layout_height="wrap_content"
                 android:scrollIndicators="right"
                 android:scrollbars="vertical"
+
                 >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="fill_parent"
                 android:orientation="vertical"
                 android:gravity="center_vertical"
                  >
@@ -133,80 +128,65 @@
             </ScrollView>
         </RelativeLayout>
 
-        </android.support.percent.PercentRelativeLayout>
 
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="5dp"
-            android:id="@+id/buttons1">
+
+
     <RelativeLayout
+        android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_heightPercent="15%"
+        android:layout_alignParentBottom="true"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
            >
             <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Next"
+                android:padding="10dp"
             android:textColor="@color/white"
             android:background="@drawable/buttons_config"
             android:id="@+id/profile_correct_next"
             android:textAlignment="center"
-            android:layout_alignParentBottom="true"
             android:layout_marginRight="5dp"/>
         </LinearLayout>
     </RelativeLayout>
-        </android.support.percent.PercentRelativeLayout>
+
 </RelativeLayout>
 
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/part1"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"
         >
 
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+            <TextView android:layout_width="match_parent" android:layout_height="fill_parent"
                 android:text="Are you unwell?"
-                app:layout_heightPercent="85%"
                 android:id="@+id/unwell_text"
                 android:layout_below="@id/toolbar"
                 android:textAlignment="center"
                 android:gravity="center_vertical"
                 style="@style/TextFont"
                 />
-        </android.support.percent.PercentRelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="5dp"
             >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="5dp"
                 >
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content"
                     android:text="Yes"
                     android:textColor="@color/white"
                     android:background="@drawable/buttons_config"
@@ -216,9 +196,10 @@
 
                     />
                 <Button
+                    android:padding="10dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="No"
                     android:textColor="@color/white"
                     android:background="@drawable/buttons_config"
@@ -231,24 +212,21 @@
 
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/part2"
-        android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
         android:visibility="invisible"        >
 
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_above="@+id/buttons2">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/buttons2"
+            android:gravity="center">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layout_heightPercent="85%"
                 android:id="@+id/dander_signs_text"
                 android:gravity="center_vertical"
                 >
@@ -296,28 +274,25 @@
             </ScrollView>
             </LinearLayout>
 
-        </android.support.percent.PercentRelativeLayout>
+        </RelativeLayout>
 
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <RelativeLayout
+            android:id="@+id/buttons2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:padding="5dp"
-            android:id="@+id/buttons2">
-            <RelativeLayout
+            >
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_heightPercent="15%"
+                android:layout_centerHorizontal="true"
                 >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:text="Yes"
+                    android:padding="5dp"
                     android:textColor="@color/white"
                     android:background="@drawable/buttons_config"
                     android:id="@+id/danger_signs_button_yes"
@@ -328,6 +303,7 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:padding="5dp"
                     android:layout_height="match_parent"
                     android:text="No"
                     android:textColor="@color/white"
@@ -339,7 +315,7 @@
                     android:onClick="ProtocolProcessListener"/>
             </LinearLayout>
         </RelativeLayout>
-        </android.support.percent.PercentRelativeLayout>
+
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"

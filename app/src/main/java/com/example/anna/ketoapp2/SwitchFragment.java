@@ -26,13 +26,16 @@ public class SwitchFragment extends Fragment implements View.OnClickListener{
     DatabaseHelper db;
     LinkedList<User> users;
     MainActivity myactivity;
+    Validation validation;
     public SwitchFragment() {
+
         users=new LinkedList<User>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_switch, container, false);
         ((Button)view.findViewById(R.id.registerbutton)).setOnClickListener(this);
         db=new DatabaseHelper(getActivity());
