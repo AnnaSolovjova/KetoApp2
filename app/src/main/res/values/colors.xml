@@ -11,6 +11,8 @@
     <color name="navigationBarColor">#9b2002</color>
     <color name="actionFlowButtonDark">#036af9</color>
     <color name="actionFlowButtonLight">#3b8dff</color>
+    <color name="textPrimary">#313131</color>
+    <color name="textHint">#848383</color>
 
 
 

@@ -276,7 +276,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(getContext().getApplicationContext(), R.raw.alarm);
                 AlertDialog dialog=new AlertDialog.Builder(getContext())
                         .setTitle("Alarm")
-                        .setMessage("4 hours passed, please click ok to proceed")
+                        .setMessage("4 hours have passed, please click ok to proceed")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 ((EditText)view.findViewById(R.id.glucose_input_edit)).setText("");

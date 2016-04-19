@@ -7,5 +7,24 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:titleTextStyle">@style/MyActionBar</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+    </style>
+    <style name="TextFont" >
+        <item name="android:fontFamily">sans-serif </item >
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+    <style name="RedTextFont" >
+        <item name="android:fontFamily">sans-serif </item >
+        <item name="android:textSize">@dimen/smaller_text_size</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+    <style name="ProfileTextFont" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:fontFamily">sans-serif </item >
+        <item name="android:textSize">@dimen/smaller_text_size</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:typeface">monospace</item>
     </style>
 </resources>

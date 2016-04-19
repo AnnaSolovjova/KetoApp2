@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/info_part">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Is following this your profile information? Please correct and press next if not."
+                android:text="Is your profile information below correct? Please correct if necessary and press next."
                 android:id="@+id/info_check"
                 android:textAlignment="center"
                 android:layout_marginBottom="20dp"
@@ -333,7 +333,7 @@
 
                 >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:text="What is your blood glucose?"
+                        android:text="What is your current blood glucose?"
                         android:id="@+id/glucose_input_text"
                         android:textAlignment="center"
                         style="@style/TextFont"/>
@@ -378,7 +378,8 @@
             android:gravity="center"
             >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Is that a second pre-meal result greater than 10?"
+                android:text="Is this result the second pre-meal result which is greater than 10?"
+
                 android:id="@+id/premeal_text"
                 android:gravity="center_vertical"
                 android:layout_below="@id/toolbar"
@@ -519,7 +520,7 @@
             android:gravity="center"
             >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="You might have established ketoacidosis. Urgent hospital assessment needed."
+                android:text="You might have established ketoacidosis. Urgent hospital assessment is required."
                 android:id="@+id/danger_advise"
                 android:layout_below="@id/toolbar"
                 android:textAlignment="center"
@@ -665,7 +666,7 @@
             android:gravity="center"
             >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Do you want application to remind you to check again your blood glucose and ketones in 4 hours?."
+                android:text="Do you want the application to remind you to recheck your blood glucose and ketones in 4 hours?"
                 android:id="@+id/reminder_text"
                 android:layout_below="@id/toolbar"
                 android:textAlignment="center"

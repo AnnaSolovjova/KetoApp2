@@ -94,7 +94,7 @@ public class SwitchFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         if(v.getId()==R.id.registerbutton)
         {
-            startActivity(new Intent(getActivity(), Registration.class));
+            myactivity.registerNew();
         }
         else {
             String username = v.getTag().toString();

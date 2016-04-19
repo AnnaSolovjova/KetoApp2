@@ -66,7 +66,7 @@ Validation validation;
         Activity activity = getActivity();
         myactivity = (MainActivity) activity;
         validation =new Validation();
-        setProfile(getUser());
+        setProfile();
         return view;
     }
 
@@ -77,8 +77,9 @@ Validation validation;
 
     //This method populates the views with the data from database
     //when displaying profile
-    public void setProfile(User user)
+    public void setProfile()
     {
+        user=getUser();
         ImageRounder rounder =new ImageRounder(getActivity());
         ((ImageView) view.findViewById(R.id.profile_pic)).setImageBitmap(rounder.getCroppedBitmap(user.getProfilePic(), 200));
         ((Button)view.findViewById(R.id.profile_edit_button)).setOnClickListener(this);
@@ -123,26 +124,17 @@ Validation validation;
                 setEditProfile(getUser());
                 break;
             case R.id.profile_del_button:
-                db.deleteUser(user.getUsername());
-                //TODO:move to activity
-                if (getUser() == null)
-                    startActivity(new Intent(getActivity(), Registration.class));
-                else {
-                    setViewLayout(R.layout.fragment_profile);
-                    setProfile(getUser());
-                }
+                    myactivity.deleteUser(user.getUsername());
                 break;
             case R.id.profile_edit_comp_button:
+                user=getUser();
                 String newU = ((EditText) view.findViewById(R.id.username_edit)).getText().toString();
                 String newD = ((EditText) view.findViewById(R.id.dateOfBirthDay_edit)).getText().toString();
                 String newM = ((EditText) view.findViewById(R.id.dateOfBirthMonth_edit)).getText().toString();
                 String newY = ((EditText) view.findViewById(R.id.dateOfBirthYear_edit)).getText().toString();
                 String newI = ((RadioButton) view.findViewById(regiment.getCheckedRadioButtonId())).getText().toString();
                 Bitmap newP = ((BitmapDrawable) ((ImageButton) view.findViewById(R.id.profile_pic_edit)).getDrawable()).getBitmap();
-                if (newU.matches("") || newD.matches("") || newM.matches("") || newY.matches("") || newI.matches("")) {
-                    Toast.makeText(getActivity(), "Please don't leave any blank fields",
-                            Toast.LENGTH_LONG).show();
-                } else if (db.userExists(newU) && (!newU.equals(user.getUsername()))) {
+                if (db.userExists(newU) && (!newU.equals(user.getUsername()))) {
                     Toast.makeText(getActivity(), "Such username already exists",
                             Toast.LENGTH_LONG).show();}
 
@@ -156,7 +148,7 @@ Validation validation;
                         else{
                             if( db.editUser(user.getUsername(),newU,newD+newM+newY,newI,newP));
                             setViewLayout(R.layout.fragment_profile);
-                            setProfile(getUser());}
+                            setProfile();}
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

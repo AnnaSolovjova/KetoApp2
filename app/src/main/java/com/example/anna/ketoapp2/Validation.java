@@ -48,6 +48,10 @@ SimpleDateFormat formatter ;
         {
             return "Date cannot of birth cannot be bigger than current date";
         }
+       else if(Integer.parseInt(year)<1900)
+       {
+           return "Year cannot be less than 1900";
+       }
         else {
             return null;
         }

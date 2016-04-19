@@ -133,8 +133,12 @@ FloatingActionButton fab;
 
     @Override
     public void onBackPressed() {
-            if(protocolFragment!=null)
+        if (protocolFragment != null && protocolFragment.isVisible()) {
+            // add your code here
+         if(protocolFragment!=null)
                 protocolFragment.myOnKeyDown();
+        }
+
     }
 
 
@@ -165,6 +169,12 @@ FloatingActionButton fab;
                     }).show();
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void registerNew(){
+        switchFragment=null;
+        profileFragment=null;
+        protocolFragment=null;
+        startActivity(new Intent(this, Registration.class));
     }
     //Method that checks which activity should be used first
     //if there are no users registered, the regestration activity should be opened
@@ -206,12 +216,43 @@ FloatingActionButton fab;
     //Method switches user to the one selected
     public void switchUser(String username)
     {
+
         database.updateCurrent(username);
         user=database.getCurrent();
-        //protocolFragment = new ProtocolFragment();
+        protocolFragment = new ProtocolFragment();
         menu.check(R.id.radioAgain);
         fab.show();
 
+    }
+
+    public void deleteUser(String username)
+    {
+    final String name=username;
+        AlertDialog dialog=new AlertDialog.Builder(this)
+                .setTitle("Alert")
+                .setMessage("Are you sure you want to delete this user?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                       deleteConfirmed(name);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+
+
+    }
+    private void deleteConfirmed(String username){
+        database.deleteUser(username);
+        if (getUser() == null)
+            startActivity(new Intent(this, Registration.class));
+        else {
+            user = database.getCurrent();
+            protocolFragment = new ProtocolFragment();
+            menu.check(R.id.radioAgain);
+        }
     }
 
 

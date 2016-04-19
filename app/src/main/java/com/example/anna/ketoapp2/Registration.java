@@ -72,10 +72,10 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 switch (checkedId)
                 {
                     case R.id.pen:
-                        Toast.makeText(getApplicationContext(), "Android RadioButton checked", Toast.LENGTH_SHORT).show();
+
                         break;
                     case R.id.pump:
-                        Toast.makeText(getApplicationContext(), "iPhone RadioButton checked", Toast.LENGTH_SHORT).show();
+
                         break;
                     default:
                         break;

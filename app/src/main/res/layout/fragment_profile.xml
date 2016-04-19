@@ -12,14 +12,14 @@
         >
             <ImageView android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:id="@+id/profile_pic"
-                android:layout_below="@id/toolbar"
-                android:layout_centerHorizontal="true"
                 />
+
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_above="@+id/buttons"
+        android:layout_below="@id/pic_part"
         android:gravity="center"
         >
     <ScrollView
@@ -89,7 +89,7 @@
         android:layout_below="@id/age_part"
         >
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Age:"
+                android:text="Date of Birth:"
                 android:id="@+id/age_title"
                 style="@style/ProfileTextFont"
                 android:layout_marginBottom="20dp"
@@ -113,6 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,6 +124,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="Edit"
+                android:padding="10dp"
                 android:textColor="@color/white"
                 android:background="@drawable/buttons_config"
                 android:id="@+id/profile_edit_button"
@@ -135,6 +137,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="Delete"
+                android:padding="10dp"
                 android:textColor="@color/white"
                 android:background="@drawable/buttons_config"
                 android:id="@+id/profile_del_button"
