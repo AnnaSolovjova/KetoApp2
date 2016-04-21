@@ -7,7 +7,8 @@
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/part0">
+        android:id="@+id/part0"
+        android:visibility="invisible">
 
 
         <RelativeLayout
@@ -63,32 +64,13 @@
                 android:layout_toLeftOf="@+id/username_title"
                 style="@style/ProfileTextFont"/>
         </android.support.percent.PercentRelativeLayout>
+
         <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/username_part"
-            android:id="@+id/insulin_part"
-            >
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Insulin Regiment:"
-                android:id="@+id/insulin_title"
-                android:layout_marginBottom="20dp"
-                style="@style/ProfileTextFont"
-                app:layout_widthPercent="50%"/>
-            <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="solovjova"
-                android:id="@+id/insulin_text"
-                android:layout_below="@id/username_title"
-                android:layout_alignParentRight="true"
-                android:layout_toLeftOf="@+id/insulin_title"
-                style="@style/ProfileTextFont" />
-        </android.support.percent.PercentRelativeLayout>
-        <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/insulin_part"
+            android:id="@+id/date_part"
             >
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="Date of Birth:"
@@ -124,6 +106,23 @@
                 android:id="@+id/age_year"
                 style="@style/ProfileTextFont"/>
         </android.support.percent.PercentRelativeLayout>
+                <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/date_part"
+                    android:id="@+id/insulin_part"
+                    >
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Insulin Regiment:"
+                        android:id="@+id/insulin_title"
+                        android:layout_marginBottom="20dp"
+                        style="@style/ProfileTextFont"
+                        app:layout_widthPercent="50%"/>
+                    <include layout="@layout/insulinregiment"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_below="@id/insulin_title"/>
+                </android.support.percent.PercentRelativeLayout>
             </LinearLayout>
             </ScrollView>
         </RelativeLayout>
@@ -323,7 +322,7 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/part3"
-        android:visibility="visible">
+        android:visibility="invisible">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -504,7 +503,22 @@
                 android:gravity="center_vertical"
                 />
        </RelativeLayout>
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:textColor="@color/white"
+            android:background="@drawable/buttons_config"
+            android:id="@+id/premeal_next"
+            android:textAlignment="center"
+            android:padding="10dp"
+            android:layout_alignParentBottom="true"/>
+</RelativeLayout>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -533,10 +547,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -546,7 +557,6 @@
                     android:id="@+id/emergency_contact"
                     android:textAlignment="center"
                     android:padding="10dp"/>
-    </LinearLayout>
         </RelativeLayout>
 
     </RelativeLayout>
@@ -838,7 +848,7 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/part14"
-        android:visibility="invisible"
+        android:visibility="visible"
         >
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -872,6 +882,16 @@
                 </LinearLayout>
                 </ScrollView>
             </RelativeLayout>
+        <Button
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Call"
+            android:textColor="@color/white"
+            android:background="@drawable/call_button_config"
+            android:id="@+id/call"
+            android:textAlignment="center"
+            android:padding="10dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_margin="10dp"

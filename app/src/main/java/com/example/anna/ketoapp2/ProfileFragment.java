@@ -180,6 +180,13 @@ Validation validation;
         });
     }
 
+    public void myOnKeyDown()
+    {
+        setViewLayout(R.layout.fragment_profile);
+        setProfile();
+    }
+
+
     //Method that handles data received when image file is selected from the gallery
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

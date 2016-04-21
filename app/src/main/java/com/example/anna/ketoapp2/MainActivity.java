@@ -3,6 +3,7 @@ package com.example.anna.ketoapp2;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 
@@ -92,7 +93,7 @@ FloatingActionButton fab;
 
                 switch (checkedId) {
                     case R.id.radioAgain:
-                        fab.show();
+                        fab.setVisibility(View.VISIBLE);
                         if (protocolFragment == null) {
                             protocolFragment = new ProtocolFragment();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, protocolFragment, "protocol").commit();
@@ -101,7 +102,7 @@ FloatingActionButton fab;
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, protocolFragment, "protocol").commit();
                         break;
                     case R.id.radioProfile:
-                        fab.hide();
+                        fab.setVisibility(View.INVISIBLE);
                         if (profileFragment == null) {
                             profileFragment = new ProfileFragment();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment, "profile").commit();
@@ -109,7 +110,7 @@ FloatingActionButton fab;
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment, "profile").commit();
                         break;
                     case R.id.radioSwitch:
-                        fab.hide();
+                        fab.setVisibility(View.INVISIBLE);
                         if (switchFragment == null) {
                             switchFragment = new SwitchFragment();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, switchFragment, "switch").commit();
@@ -138,7 +139,17 @@ FloatingActionButton fab;
          if(protocolFragment!=null)
                 protocolFragment.myOnKeyDown();
         }
+        else if (profileFragment!=null && profileFragment.isVisible())
+        {
+            profileFragment.myOnKeyDown();
+        }
 
+    }
+    public void emergencyCall()
+    {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:111"));
+        startActivity(callIntent);
     }
 
 

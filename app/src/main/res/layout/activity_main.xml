@@ -23,7 +23,7 @@
             android:layout_gravity="top|end"
             android:src="@mipmap/info"
             android:layout_margin="2dp"
-            app:backgroundTint="@color/actionFlowButtonDark"/>
+            app:backgroundTint="@color/actionFlowButtonLight"/>
 
         <include layout="@layout/content_main"
             android:id="@+id/main_screen"

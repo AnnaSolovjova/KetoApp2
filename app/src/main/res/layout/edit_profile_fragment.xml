@@ -19,6 +19,7 @@
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
         android:background="@null"
+        android:padding="5dp"
         />
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
         android:id="@+id/pic_hint" android:text="Click icon to change profile image" android:layout_toRightOf="@id/profile_pic_edit"

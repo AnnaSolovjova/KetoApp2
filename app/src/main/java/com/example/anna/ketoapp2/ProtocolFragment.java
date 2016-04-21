@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +43,10 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     MainActivity myactivity;
     InputMethodManager inputMethodManager;
     Calendar cal;
+    RadioGroup regiment;
+    int hours;
+
+
 
     @Override
     public void onStart() {
@@ -149,7 +156,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                     }
                     else
                     {
-                        db.editUser(user.getUsername(), ((EditText) view.findViewById(R.id.username_text)).getText().toString(), ((EditText) view.findViewById(R.id.age_day)).getText().toString()+((EditText) view.findViewById(R.id.age_month)).getText().toString()+((EditText) view.findViewById(R.id.age_year)).getText().toString(), ((EditText) view.findViewById(R.id.insulin_text)).getText().toString());
+                        db.editUser(user.getUsername(), ((EditText) view.findViewById(R.id.username_text)).getText().toString(), ((EditText) view.findViewById(R.id.age_day)).getText().toString()+((EditText) view.findViewById(R.id.age_month)).getText().toString()+((EditText) view.findViewById(R.id.age_year)).getText().toString(),  ((RadioButton) view.findViewById(regiment.getCheckedRadioButtonId())).getText().toString());
                         pr.push(new Integer(12));
                         setVisibility(0);
                     }
@@ -179,34 +186,36 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.glucose_next:
-                if(!time.equals(""))
-                    time="";
+                if(!time.equals("")) {
+                    Calendar current = Calendar.getInstance();
+                    if(current.before( cal ))
+                    {
+                        AlertDialog dialog=new AlertDialog.Builder(getContext())
+                                .setTitle("Alert")
+                                .setMessage("You had to remeasure your blood glucose and insulin at" +time+" . Are you sure you want to proceed before this time? " +
+                                        "If alarm was set, it will be canceled.")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        cal=null;
+                                        time="";
+                                        glucoseNext();
+                                        if(notifier!=null)
+                                            notifier.canceled=true;
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                if(((EditText)view.findViewById(R.id.glucose_input_edit)).getText().toString().matches("")){
-                    Toast.makeText(getActivity(), "Please don't leave the field blank",
-                            Toast.LENGTH_LONG).show();
-                }
-                else if (Float.parseFloat(((EditText)view.findViewById(R.id.glucose_input_edit)).getText().toString())>33.3)
-                {
-                    Toast.makeText(getActivity(), "If your meter identify HI glucose please write 33.3",
-                            Toast.LENGTH_LONG).show();
-                }
-                else {
-                    pr.push(new Integer(2));
-                        glucose=Double.parseDouble(((EditText) view.findViewById(R.id.glucose_input_edit)).getText().toString());
-                    if(glucose<10){
-                        setVisibility(11);
-                    }
-                    else {
-
-                        if(iteration==0)
-                        setVisibility(3);
-                        else if(iteration==3)
-                        setVisibility(13);
-                        else
-                        setVisibility(4);
+                                    }
+                                }).show();
                     }
                 }
+                else
+                glucoseNext();
+
+
+
+
                 break;
             case R.id.premeal_yes:
                 pr.push(new Integer(3));
@@ -268,30 +277,30 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 setVisibility(14);
                 break;
             case R.id.reminder_yes:
-
                 pr.push(new Integer(9));
                 setVisibility(2);
                 iteration++;
+                final String msg=""+ hours +"hours have passed, please click ok to proceed";
                 //replace 'sound' by your    music/sound
                 final MediaPlayer mediaPlayer = MediaPlayer.create(getContext().getApplicationContext(), R.raw.alarm);
                 AlertDialog dialog=new AlertDialog.Builder(getContext())
                         .setTitle("Alarm")
-                        .setMessage("4 hours have passed, please click ok to proceed")
+                        .setMessage(msg)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 ((EditText)view.findViewById(R.id.glucose_input_edit)).setText("");
                                 mediaPlayer.stop();
                                 mediaPlayer.release();
 
-
                             }
                         })
 
                         .setIcon(android.R.drawable.ic_dialog_alert).create();
                 cal = Calendar.getInstance();
-                cal.add(Calendar.HOUR_OF_DAY, 4);
+                cal.add(Calendar.HOUR_OF_DAY, hours);
+
                 time=validation.timeValidation(cal);
-                notifier= new AppNotifications(5000,1000,getContext(),dialog,(TextView)view.findViewById(R.id.timer_text),mediaPlayer);
+                notifier= new AppNotifications(hours*3000,1000,getContext(),dialog,(TextView)view.findViewById(R.id.timer_text),mediaPlayer);
                 break;
             case R.id.reminder_no:
                 pr.push(new Integer(9));
@@ -300,6 +309,12 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 time=validation.timeValidation(cal);
                 setVisibility(2);
                 iteration++;
+                break;
+            case R.id.premeal_next:
+                setVisibility(9);
+                break;
+            case R.id.call:
+                myactivity.emergencyCall();
                 break;
 
 
@@ -323,19 +338,59 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         return user;
     }
 
+    public void glucoseNext()
+    {
+        if(((EditText)view.findViewById(R.id.glucose_input_edit)).getText().toString().matches("")){
+            Toast.makeText(getActivity(), "Please don't leave the field blank",
+                    Toast.LENGTH_LONG).show();
+        }
+        else if (Float.parseFloat(((EditText)view.findViewById(R.id.glucose_input_edit)).getText().toString())>33.3)
+        {
+            Toast.makeText(getActivity(), "If your meter identify HI glucose please write 33.3",
+                    Toast.LENGTH_LONG).show();
+        }
+        else {
+            pr.push(new Integer(2));
+            glucose=Double.parseDouble(((EditText) view.findViewById(R.id.glucose_input_edit)).getText().toString());
+            if(glucose<10){
+                setVisibility(11);
+            }
+            else {
+
+                if(iteration==0)
+                    setVisibility(3);
+                else if(iteration==3)
+                    setVisibility(13);
+                else
+                    setVisibility(4);
+            }
+        }
+    }
+
     //Method makes necessary setup for the layout
     //including assignment of listeners
     private void setUpProtocolProcedure()
     {
         user=getUser();
+        if(user.getInsulinRegiment().equals("Insulin Pump"))
+                    hours=2;
+        else
+                    hours=4;
         FocusChange focusChange=new FocusChange(getContext());
         ((Button)view.findViewById(R.id.profile_correct_next)).setOnClickListener(this);
         ((EditText) view.findViewById(R.id.username_text)).setText(user.getUsername());
         ((EditText) view.findViewById(R.id.age_day)).setText(user.getDateOfBirth().substring(0, 2));
         ((EditText) view.findViewById(R.id.age_month)).setText(user.getDateOfBirth().substring(2, 4));
         ((EditText) view.findViewById(R.id.age_day)).setText(user.getDateOfBirth().substring(4, 8));
-        ((EditText) view.findViewById(R.id.insulin_text)).setText(user.getInsulinRegiment());
+        regiment=(RadioGroup)view.findViewById(R.id.radioGroup2);
+        setRadioButtons(regiment);
+            if(user.getInsulinRegiment().equals("Insulin Pen"))
+                regiment.check(R.id.pen);
+            else
+                regiment.check(R.id.pump);
         ((Button)view.findViewById(R.id.unwell_yes)).setOnClickListener(this);
+        ((TextView)view.findViewById(R.id.reminder_text)).setText("Do you want the application to remind you to recheck your blood glucose and ketones in " + hours + " hours?");
+        ((TextView)view.findViewById(R.id.remeasure_advise)).setText("Please check your blood glucose again before meal in " + hours + " hours");
         ((Button)view.findViewById(R.id.unwell_no)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.danger_signs_button_yes)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.danger_signs_button_no)).setOnClickListener(this);
@@ -348,10 +403,12 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         ((Button)view.findViewById(R.id.emergency_contact2)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.glucose_next)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.insulin_next)).setOnClickListener(this);
+        ((Button)view.findViewById(R.id.call)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.reminder_yes)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.reminder_no)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.reminder_no)).setOnClickListener(this);
         ((Button)view.findViewById(R.id.dosage_next)).setOnClickListener(this);
+        ((Button)view.findViewById(R.id.premeal_next)).setOnClickListener(this);
         layout[0]=(RelativeLayout)view.findViewById(R.id.part1);
         layout[1]=(RelativeLayout)view.findViewById(R.id.part2);
         layout[2]=(RelativeLayout)view.findViewById(R.id.part3);
@@ -418,6 +475,23 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         if(dosage>15)
             dosage = 15;
         return dosage;
+    }
+
+    private void setRadioButtons(RadioGroup reg) {
+        reg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.pen:
+                        break;
+                    case R.id.pump:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     //Method that shows the soft keyboard on the screen

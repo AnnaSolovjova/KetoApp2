@@ -1,5 +1,6 @@
 package com.example.anna.ketoapp2;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -146,6 +147,11 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
     }
 
 }
