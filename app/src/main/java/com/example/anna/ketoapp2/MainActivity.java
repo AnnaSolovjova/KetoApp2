@@ -77,6 +77,9 @@ FloatingActionButton fab;
     {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FocusChange focusChange=new FocusChange(this);
+        toolbar.setOnTouchListener(focusChange);
+
     }
     private void setupFloatingActionButton(){
         fab= (FloatingActionButton) this.findViewById(R.id.fab);
@@ -148,7 +151,7 @@ FloatingActionButton fab;
     public void emergencyCall()
     {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:111"));
+        callIntent.setData(Uri.parse("tel:999"));
         startActivity(callIntent);
     }
 
@@ -167,7 +170,7 @@ FloatingActionButton fab;
             AlertDialog dialog=new AlertDialog.Builder(this)
                     .setTitle("Alert")
                     .setMessage("Are you sure you want to start again?")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             protocolFragment = new ProtocolFragment();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, protocolFragment, "profile").commit();
@@ -242,7 +245,7 @@ FloatingActionButton fab;
         AlertDialog dialog=new AlertDialog.Builder(this)
                 .setTitle("Alert")
                 .setMessage("Are you sure you want to delete this user?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                        deleteConfirmed(name);
                     }

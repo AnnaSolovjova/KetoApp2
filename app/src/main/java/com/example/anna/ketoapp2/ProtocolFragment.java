@@ -29,7 +29,6 @@ import java.util.Stack;
 * including changing visibility of the layouts within the fragment,
 * populating views with the data, handling user input etc*/
 public class ProtocolFragment extends Fragment implements View.OnClickListener {
-    Validation validation;
     View view;
     DatabaseHelper db;
     User user;
@@ -74,7 +73,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         Activity activity = getActivity();
         myactivity = (MainActivity) activity;
          db=new DatabaseHelper(getActivity());
-         validation=new Validation();
+
         inputMethodManager=(InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (savedInstanceState == null) {
            /* visibility=this.visibility;
@@ -143,6 +142,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         String output;
+        Validation validation = new Validation();
         switch (v.getId()) {
             case R.id.profile_correct_next:
                 try {
@@ -192,9 +192,9 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                     {
                         AlertDialog dialog=new AlertDialog.Builder(getContext())
                                 .setTitle("Alert")
-                                .setMessage("You had to remeasure your blood glucose and insulin at" +time+" . Are you sure you want to proceed before this time? " +
-                                        "If alarm was set, it will be canceled.")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                .setMessage("You had to remeasure your blood glucose and insulin at " +time+" . Are you sure you want to proceed before this time? " +
+                                        "If alarm was set, it will be cancelled.")
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         cal=null;
                                         time="";
@@ -230,7 +230,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             case R.id.ketones_yes:
                 ketones=1;
                 pr.push(new Integer(4));
-                if(iteration==1){ setVisibility(7);}
+                if(iteration==0){ setVisibility(7);}
                 else{
                     dosageShow();
                     setVisibility(8);
@@ -239,7 +239,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             case R.id.ketones_no:
                 ketones = 0;
                 pr.push(new Integer(4));
-                if(iteration==1){ setVisibility(7);}
+                if(iteration==0){ setVisibility(7);}
                 else{
                     dosageShow();
                     setVisibility(8);
@@ -262,6 +262,8 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                     pr.push(new Integer(7));
                     dosageShow();
                     setVisibility(8);
+
+
                 }
                 break;
             case R.id.dosage_next:
@@ -280,7 +282,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 pr.push(new Integer(9));
                 setVisibility(2);
                 iteration++;
-                final String msg=""+ hours +"hours have passed, please click ok to proceed";
+                final String msg=""+ hours +" hours have passed, please click ok to proceed";
                 //replace 'sound' by your    music/sound
                 final MediaPlayer mediaPlayer = MediaPlayer.create(getContext().getApplicationContext(), R.raw.alarm);
                 AlertDialog dialog=new AlertDialog.Builder(getContext())
@@ -356,9 +358,12 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 setVisibility(11);
             }
             else {
-
-                if(iteration==0)
-                    setVisibility(3);
+                if(iteration==0){
+                    if(user.getInsulinRegiment().equals("Insulin Pen"))
+                        setVisibility(3);
+                    else
+                        setVisibility(4);
+                }
                 else if(iteration==3)
                     setVisibility(13);
                 else
@@ -456,7 +461,10 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     private void dosageShow()
     {
         insulin=Integer.parseInt(((EditText) view.findViewById(R.id.insulin_input_edit)).getText().toString());
-        ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("#.00").format(Dosage()) + " units of fast-acting insulin.");
+        if(ketones==1&&getUser().getInsulinRegiment().equals("Insulin Pump"))
+        ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("#.00").format(Dosage()) + " units of fast-acting insulin by Insulin Pen.");
+        else
+            ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("#.00").format(Dosage()) + " units of fast-acting insulin");
     }
 
     //This method is responsiable for calculating the dosage of the insulin

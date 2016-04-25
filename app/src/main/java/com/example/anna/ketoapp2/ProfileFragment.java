@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -43,17 +44,11 @@ import java.text.ParseException;
  */
 public class ProfileFragment extends Fragment  implements View.OnClickListener {
 
-public User user;
 DatabaseHelper db;
-public PendingIntent pendingIntent;
 private View view;
 RadioGroup regiment;
-EditText username ,insulin ,age;
 MainActivity myactivity;
-Validation validation;
     public ProfileFragment() {
-       user=new User();
-
     }
 
     @Override
@@ -65,7 +60,6 @@ Validation validation;
         db=new DatabaseHelper(getActivity());
         Activity activity = getActivity();
         myactivity = (MainActivity) activity;
-        validation =new Validation();
         setProfile();
         return view;
     }
@@ -79,7 +73,7 @@ Validation validation;
     //when displaying profile
     public void setProfile()
     {
-        user=getUser();
+        User user=getUser();
         ImageRounder rounder =new ImageRounder(getActivity());
         ((ImageView) view.findViewById(R.id.profile_pic)).setImageBitmap(rounder.getCroppedBitmap(user.getProfilePic(), 200));
         ((Button)view.findViewById(R.id.profile_edit_button)).setOnClickListener(this);
@@ -117,6 +111,7 @@ Validation validation;
     @Override
     public void onClick(View v) {
         String output;
+        User user = getUser();
         switch(v.getId()) {
 
             case R.id.profile_edit_button:
@@ -139,6 +134,7 @@ Validation validation;
                             Toast.LENGTH_LONG).show();}
 
                 else try {
+                    Validation validation =new Validation();
                         if ((output = validation.dateValidation(newD, newM, newY)) != null) {
                                         Toast.makeText(getActivity(), output,
                                                 Toast.LENGTH_LONG).show();
@@ -147,8 +143,10 @@ Validation validation;
 
                         else{
                             if( db.editUser(user.getUsername(),newU,newD+newM+newY,newI,newP));
+                            hideKeyboard((RelativeLayout) view.findViewById(R.id.profile_edit));
                             setViewLayout(R.layout.fragment_profile);
-                            setProfile();}
+                            setProfile();
+                            ;}
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -218,6 +216,10 @@ Validation validation;
         rootView.addView(view);
     }
 
+    private void hideKeyboard(RelativeLayout linearLayout) {
+        InputMethodManager inputMethodManager=(InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(linearLayout.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
+    }
 
 }

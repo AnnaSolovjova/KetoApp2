@@ -16,12 +16,13 @@ android:orientation="horizontal">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/radiobutton_selector"
+            android:background="@drawable/regiment_radiobuttons"
             android:button="@null"
             android:checked="true"
             android:gravity="center"
-            android:padding="5dp"
+            android:padding="10dp"
             android:text="Insulin Pen"
+            android:textColor="@color/white"
             />
 
         <RadioButton
@@ -29,11 +30,12 @@ android:orientation="horizontal">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/radiobutton_selector"
+            android:background="@drawable/regiment_radiobuttons"
             android:button="@null"
             android:gravity="center"
-            android:padding="5dp"
+            android:padding="10dp"
             android:text="Insulin Pump"
+            android:textColor="@color/white"
             />
 
 

@@ -4,12 +4,27 @@
     android:layout_margin="10dp"
     android:id="@+id/profile_edit"
     >
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollIndicators="right"
+        android:scrollbars="vertical"
+        android:layout_above="@+id/profile_edit_comp_button"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            >
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edit_pic_part"
         android:padding="5dp"
+        android:layout_marginBottom="5dp"
         >
     <ImageButton
         android:id="@+id/profile_pic_edit"
@@ -31,23 +46,11 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/profile_edit_comp_button"
+
         android:layout_below="@id/edit_pic_part"
         android:gravity="center"
         >
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:scrollIndicators="right"
-            android:scrollbars="vertical"
 
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical"
-                >
     <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -133,11 +136,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/edit_insulin_part"
         android:layout_below="@id/edit_age_part"
+        android:paddingBottom="5dp"
         >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Insulin Regiment"
+                android:text="Insulin Regimen"
                 android:layout_below="@id/dateOfBirth_edit"
                 android:id="@+id/insulinRegiment_edit_title"
                 style="@style/ProfileTextFont"/>
@@ -148,9 +152,9 @@
 
     </android.support.percent.PercentRelativeLayout>
 
-    </LinearLayout>
-    </ScrollView>
         </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
 
 

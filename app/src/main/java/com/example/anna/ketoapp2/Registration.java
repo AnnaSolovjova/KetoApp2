@@ -31,13 +31,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Registration extends AppCompatActivity implements View.OnClickListener  {
-    TextView error;
     EditText dateOfBirthD,dateOfBirthM,dateOfBirthY,username;
     Button registbutton;
     DatabaseHelper db;
-    SimpleDateFormat formatter ;
     RadioGroup regiment;
-    Validation validation;
+
 
 
     @Override
@@ -49,7 +47,6 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_registration);
         regiment=(RadioGroup)findViewById(R.id.radioGroup2);
         setRadioButtons(regiment);
-        validation=new Validation();
         username=(EditText)findViewById(R.id.username);
         dateOfBirthD=(EditText)findViewById(R.id.dateOfBirthDay);
         dateOfBirthM=(EditText)findViewById(R.id.dateOfBirthMonth);
@@ -118,7 +115,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         String output;
         try {
 
-
+            Validation validation = new Validation();
             switch(v.getId()) {
                 case R.id.registerbutton:
                     if(username.getText().toString().matches("")||   dateOfBirthD.getText().toString().matches("")||dateOfBirthM.getText().toString().matches("")||dateOfBirthY.getText().toString().matches(""))

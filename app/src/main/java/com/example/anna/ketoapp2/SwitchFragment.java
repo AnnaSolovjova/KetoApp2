@@ -24,13 +24,7 @@ import java.util.LinkedList;
 public class SwitchFragment extends Fragment implements View.OnClickListener{
     View view;
     DatabaseHelper db;
-    LinkedList<User> users;
     MainActivity myactivity;
-    Validation validation;
-    public SwitchFragment() {
-
-        users=new LinkedList<User>();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,21 +35,17 @@ public class SwitchFragment extends Fragment implements View.OnClickListener{
         db=new DatabaseHelper(getActivity());
         Activity activity = getActivity();
         myactivity = (MainActivity) activity;
-        getUsers();
         setButtons();
         return view;
     }
-    public LinkedList<User> getUsers()
-    {
-        users =myactivity.getUsers();
-        return users;
-    }
+
 
     //This method create buttons that will be added to the view
     //and sets these buttons
     //One button for each user
     private void setButtons()
     {
+        LinkedList<User> users =myactivity.getUsers();
         LinearLayout layout=(LinearLayout)view.findViewById(R.id.user_switch_buttons);
         for(User user : users) {
             LinearLayout listitem=new LinearLayout(getContext());

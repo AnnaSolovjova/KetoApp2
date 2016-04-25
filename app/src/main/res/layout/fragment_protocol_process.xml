@@ -114,7 +114,7 @@
                     android:id="@+id/insulin_part"
                     >
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="Insulin Regiment:"
+                        android:text="Insulin Regimen:"
                         android:id="@+id/insulin_title"
                         android:layout_marginBottom="20dp"
                         style="@style/ProfileTextFont"
@@ -438,7 +438,7 @@
             android:gravity="center"
             >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Check your blood ketones. Are they more tham 1mmol/L?"
+                android:text="Check your blood ketones. Are they more than 1mmol/L?"
                 android:id="@+id/ketones_text"
                 android:layout_below="@id/toolbar"
                 android:textAlignment="center"
@@ -779,7 +779,7 @@
                 android:id="@+id/normal_glucose_advise"
                 android:layout_below="@id/toolbar"
                 android:gravity="center_vertical"
-                style="@style/ProfileTextFont"
+                style="@style/TextFont"
                 android:textAlignment="center"/>
         </RelativeLayout>
 
@@ -874,7 +874,7 @@
                     android:textAlignment="center"
                     style="@style/TextFont"/>
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:text="111"
+                    android:text="999"
                     android:id="@+id/emergency_text"
                     android:textAlignment="center"
                     style="@style/TextFont"
@@ -910,6 +910,30 @@
                     android:textAlignment="center"
                     style="@style/TextFont"/>
             </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/part16"
+        android:visibility="invisible"
+        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            >
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="This may be starvarion ketoacidosis.Be sure you get enoughcarbohydrate to eat and drink!"
+                android:id="@+id/starvation_ketoacidosis_advise"
+                android:layout_below="@id/toolbar"
+                android:gravity="center_vertical"
+                style="@style/TextFont"
+                android:textAlignment="center"/>
+        </RelativeLayout>
+
+
     </RelativeLayout>
 
 
