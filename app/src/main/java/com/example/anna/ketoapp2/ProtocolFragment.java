@@ -38,7 +38,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     int visibility =12;
     double glucose;
     Stack pr = new Stack();
-    RelativeLayout layout[]=new RelativeLayout[16];
+    RelativeLayout layout[]=new RelativeLayout[17];
     MainActivity myactivity;
     InputMethodManager inputMethodManager;
     Calendar cal;
@@ -76,14 +76,6 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
         inputMethodManager=(InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (savedInstanceState == null) {
-           /* visibility=this.visibility;
-            ketones=this.ketones;
-            iteration=this.iteration;
-            glucose=this.glucose;
-            insulin=this.insulin;
-            pr=this.pr;
-            time=this.time;*/
-           //TODO
             if(glucose!=0)
                 ((EditText)view.findViewById(R.id.glucose_input_edit)).setText(""+glucose);
         }
@@ -130,6 +122,8 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
                 setVisibility(previous);
             }
+            else if (previous == 3 && iteration ==1)
+                iteration--;
             else if (previous != 100) {
                 setVisibility(previous);
             } else
@@ -220,30 +214,43 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             case R.id.premeal_yes:
                 pr.push(new Integer(3));
                 setVisibility(4);
-                if(iteration==0)
-                 iteration++;
+                iteration++;
                 break;
             case R.id.premeal_no:
                 pr.push(new Integer(3));
                 setVisibility(5);
                 break;
             case R.id.ketones_yes:
-                ketones=1;
-                pr.push(new Integer(4));
-                if(iteration==0){ setVisibility(7);}
-                else{
-                    dosageShow();
-                    setVisibility(8);
+                ketones = 1;
+                if(glucose<12){
+                    ((TextView)view.findViewById(R.id.starvation_ketoacidosis_advise)).setText("This may be starvarion ketoacidosis.Be sure you get enough carbohydrate to eat and drink!");
+                    setVisibility(16);}
+                 else {
+                    if (iteration <2) {
+                        setVisibility(7);
+                    } else {
+                        dosageShow();
+                        setVisibility(8);
+                    }
                 }
                 break;
             case R.id.ketones_no:
-                ketones = 0;
                 pr.push(new Integer(4));
-                if(iteration==0){ setVisibility(7);}
-                else{
-                    dosageShow();
-                    setVisibility(8);
+                ketones = 0;
+                if(glucose<4){
+                    ((TextView)view.findViewById(R.id.starvation_ketoacidosis_advise)).setText("You are Hypo. Please take fast asting sugar!");
+                    setVisibility(16);
+                }
+                else if(glucose<12)
+                    setVisibility(11);
+                else {
+                    if (iteration <2) {
+                        setVisibility(7);
+                    } else {
+                        dosageShow();
+                        setVisibility(8);
 
+                    }
                 }
                 break;
             case R.id.insulin_next:
@@ -354,21 +361,27 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         else {
             pr.push(new Integer(2));
             glucose=Double.parseDouble(((EditText) view.findViewById(R.id.glucose_input_edit)).getText().toString());
-            if(glucose<10){
+         /*   if(glucose<10){
                 setVisibility(11);
             }
-            else {
+            else {*/
                 if(iteration==0){
-                    if(user.getInsulinRegiment().equals("Insulin Pen"))
+                    if(user.getInsulinRegiment().equals("Insulin Pen")&&glucose>=12)
                         setVisibility(3);
-                    else
+                    else {
                         setVisibility(4);
+                        iteration++;
+                    }
                 }
-                else if(iteration==3)
-                    setVisibility(13);
+                else if(iteration==3) {
+                    if (user.getInsulinRegiment().equals("Insulin Pump")){((TextView)view.findViewById(R.id.danger_advise2)).setText("You have had a high blood glucose and ketones for more than 6 hours, please call emergency or a doctor.");}
+                    else {((TextView)view.findViewById(R.id.danger_advise2)).setText("You have had a high blood glucose and ketones for more than 12 hours, please call emergency or a doctor.");}
+
+                        setVisibility(13);
+                }
                 else
                     setVisibility(4);
-            }
+           // }
         }
     }
 
@@ -433,6 +446,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         layout[13]=(RelativeLayout)view.findViewById(R.id.part13);
         layout[14]=(RelativeLayout)view.findViewById(R.id.part14);
         layout[15]=(RelativeLayout)view.findViewById(R.id.part15);
+        layout[16]=(RelativeLayout)view.findViewById(R.id.part16);
     }
 
 
@@ -462,23 +476,23 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     {
         insulin=Integer.parseInt(((EditText) view.findViewById(R.id.insulin_input_edit)).getText().toString());
         if(ketones==1&&getUser().getInsulinRegiment().equals("Insulin Pump"))
-        ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("#.00").format(Dosage()) + " units of fast-acting insulin by Insulin Pen.");
+        ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("0.0").format(Dosage()) + " units of fast-acting insulin by Insulin Pen.");
         else
-            ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("#.00").format(Dosage()) + " units of fast-acting insulin");
+            ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("0.0").format(Dosage()) + " units of fast-acting insulin");
     }
 
     //This method is responsiable for calculating the dosage of the insulin
     //according to the formula chosen considering several different values specified
     private double Dosage()
     {
-        double dosage=0;
+        int dosage=0;
         if(glucose>=17&&ketones==1)
-            dosage=insulin/6;
-        else if((glucose>=17&&ketones==0)||(glucose<17&&glucose>=10)) {
+            dosage=(int) insulin/6;
+        else if((glucose>=17&&ketones==0)||(glucose<17&&glucose>=12)) {
             double divider = (100 / insulin);
             if (divider==0)
                 divider=1;
-            dosage = (double)((glucose - 8) / divider);
+            dosage = (int)((glucose - 8) / divider);
         }
         if(dosage>15)
             dosage = 15;

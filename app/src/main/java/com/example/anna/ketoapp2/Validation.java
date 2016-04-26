@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -60,7 +61,10 @@ SimpleDateFormat formatter ;
     //This method specifies the time format when calendar returns the analogue time unspecified
     public String timeValidation (Calendar cal)
     {
-        String time =cal.get(Calendar.HOUR)+":"+cal.get(Calendar.MINUTE);
+        int hour= cal.get(Calendar.HOUR);
+        int min = cal.get(Calendar.MINUTE);
+        String time = (new DecimalFormat("00").format(hour)+":"+(new DecimalFormat("00").format(min)));
+
         if(cal.get(Calendar.AM_PM)==0)
             time=time+" AM";
         else

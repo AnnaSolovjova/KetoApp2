@@ -377,7 +377,7 @@
             android:gravity="center"
             >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Is this result the second pre-meal result which is greater than 10?"
+                android:text="Is this result the second pre-meal result which is greater than 12?"
 
                 android:id="@+id/premeal_text"
                 android:gravity="center_vertical"
@@ -925,7 +925,7 @@
             android:gravity="center"
             >
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="This may be starvarion ketoacidosis.Be sure you get enoughcarbohydrate to eat and drink!"
+                android:text="This may be starvarion ketoacidosis.Be sure you get enough carbohydrate to eat and drink!"
                 android:id="@+id/starvation_ketoacidosis_advise"
                 android:layout_below="@id/toolbar"
                 android:gravity="center_vertical"

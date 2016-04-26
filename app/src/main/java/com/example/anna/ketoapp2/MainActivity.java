@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 import java.util.LinkedList;
@@ -53,7 +54,7 @@ FloatingActionButton fab;
                         int i=protocolFragment.iteration;
                         if(protocolFragment.iteration==0)
                             i=1;
-                        String iteration="This is your "+i+ " cycle in the app."+System.getProperty("line.separator");
+                        String iteration="This is your "+i+ " correction dose."+System.getProperty("line.separator");
                         String time= "";
                         //show time information only if the timer was already set
                         if (!(protocolFragment.time.equals("")))
@@ -70,6 +71,22 @@ FloatingActionButton fab;
                                 }).show();
                     }
                 break;
+            case R.id.menu_start_again:
+                AlertDialog dialog=new AlertDialog.Builder(this)
+                        .setTitle("Alert")
+                        .setMessage("Are you sure you want to start again?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                protocolFragment = new ProtocolFragment();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, protocolFragment, "profile").commit();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
+
         }
     }
 
@@ -79,6 +96,7 @@ FloatingActionButton fab;
         setSupportActionBar(toolbar);
         FocusChange focusChange=new FocusChange(this);
         toolbar.setOnTouchListener(focusChange);
+        ((TextView)findViewById(R.id.menu_start_again)).setOnClickListener(this);
 
     }
     private void setupFloatingActionButton(){
@@ -128,12 +146,12 @@ FloatingActionButton fab;
         });
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -162,28 +180,15 @@ FloatingActionButton fab;
         super.onDestroy();
     }
 
-    @Override
+ /*   @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_protocol) {
-            AlertDialog dialog=new AlertDialog.Builder(this)
-                    .setTitle("Alert")
-                    .setMessage("Are you sure you want to start again?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            protocolFragment = new ProtocolFragment();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, protocolFragment, "profile").commit();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
 
-                        }
-                    }).show();
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
     public void registerNew(){
         switchFragment=null;
         profileFragment=null;

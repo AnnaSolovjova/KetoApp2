@@ -7,31 +7,44 @@
     tools:context=".MainActivity"
     android:id="@+id/parent_container" >
 
-        <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:theme="@style/MyTheme">
-            <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
-                android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:navigationIcon="@mipmap/toolbar_logo"
-                android:theme="@style/MyTheme" />
-        </android.support.design.widget.AppBarLayout>
+    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:theme="@style/MyTheme">
+        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
+            android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="@mipmap/toolbar_logo"
+            android:theme="@style/MyTheme"
+            android:title="KetoApp" >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="right">
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Again" android:id="@+id/menu_start_again"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:paddingRight="10dp"/>
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:src="@mipmap/info"
-            android:layout_margin="2dp"
-            app:backgroundTint="@color/actionFlowButtonLight"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:src="@mipmap/info"
+        android:layout_margin="2dp"
+        app:backgroundTint="@color/actionFlowButtonLight"/>
 
-        <include layout="@layout/content_main"
-            android:id="@+id/main_screen"
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent"
-            android:layout_below="@+id/fab"
-         />
+    <include layout="@layout/content_main"
+        android:id="@+id/main_screen"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/fab"
+        />
 
 
 
