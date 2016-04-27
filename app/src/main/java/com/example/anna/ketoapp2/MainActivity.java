@@ -217,6 +217,10 @@ FloatingActionButton fab;
                 protocolFragment = (ProtocolFragment)getSupportFragmentManager().findFragmentByTag("protocol");
         }
     }
+    public void startAgain()
+    {
+        protocolFragment=new ProtocolFragment();
+    }
 
     public User getUser(){
             user = database.getCurrent();

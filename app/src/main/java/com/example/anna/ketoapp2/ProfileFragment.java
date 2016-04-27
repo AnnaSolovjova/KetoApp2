@@ -3,8 +3,10 @@ package com.example.anna.ketoapp2;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -134,6 +136,10 @@ MainActivity myactivity;
                             Toast.LENGTH_LONG).show();}
 
                 else try {
+                    if(!user.getInsulinRegiment().equals(newI))
+                    {
+                       myactivity.startAgain();
+                    }
                     Validation validation =new Validation();
                         if ((output = validation.dateValidation(newD, newM, newY)) != null) {
                                         Toast.makeText(getActivity(), output,

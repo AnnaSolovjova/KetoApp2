@@ -33,10 +33,12 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     DatabaseHelper db;
     User user;
     AppNotifications notifier;
-    int iteration,ketones,insulin,previous = 0;
+    int unwell,iteration,ketones,insulin,previous = 0;
     String time="";
     int visibility =12;
     double glucose;
+    int maxSugar=0;
+
     Stack pr = new Stack();
     RelativeLayout layout[]=new RelativeLayout[17];
     MainActivity myactivity;
@@ -83,6 +85,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         {
             //set variables with the values saved on orientation change
             iteration=savedInstanceState.getInt("iteration");
+            unwell=savedInstanceState.getInt("unwell");
             glucose=savedInstanceState.getDouble("glucose");;
             insulin=savedInstanceState.getInt("insulin");;
             ketones=savedInstanceState.getInt("ketones");;
@@ -105,7 +108,8 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         outState.putDouble("glucose", glucose);
         outState.putInt("insulin", insulin);
         outState.putString("time", time);
-        outState.putSerializable("stack",pr);
+        outState.putSerializable("stack", pr);
+        outState.putSerializable("unwell",unwell);
     }
 
 
@@ -124,6 +128,11 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             }
             else if (previous == 3 && iteration ==1)
                 iteration--;
+            else if(iteration==1&&!(getUser().getInsulinRegiment().equals("Insulin Pen")&&unwell==0)&&previous ==2)
+            {
+                iteration--;
+
+            }
             else if (previous != 100) {
                 setVisibility(previous);
             } else
@@ -144,13 +153,13 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                     {
                         Toast.makeText(getContext(), output, Toast.LENGTH_LONG).show();
                     }
-                    else if(!user.getUsername().equals((((EditText) view.findViewById(R.id.username_text)).getText().toString()))&&(db.userExists(((EditText) view.findViewById(R.id.username_text)).getText().toString())))
+                    else if(!getUser().getUsername().equals((((EditText) view.findViewById(R.id.username_text)).getText().toString()))&&(db.userExists(((EditText) view.findViewById(R.id.username_text)).getText().toString())))
                     {
                         Toast.makeText(getContext(), "User already exists", Toast.LENGTH_LONG).show();
                     }
                     else
                     {
-                        db.editUser(user.getUsername(), ((EditText) view.findViewById(R.id.username_text)).getText().toString(), ((EditText) view.findViewById(R.id.age_day)).getText().toString()+((EditText) view.findViewById(R.id.age_month)).getText().toString()+((EditText) view.findViewById(R.id.age_year)).getText().toString(),  ((RadioButton) view.findViewById(regiment.getCheckedRadioButtonId())).getText().toString());
+                        db.editUser(getUser().getUsername(), ((EditText) view.findViewById(R.id.username_text)).getText().toString(), ((EditText) view.findViewById(R.id.age_day)).getText().toString()+((EditText) view.findViewById(R.id.age_month)).getText().toString()+((EditText) view.findViewById(R.id.age_year)).getText().toString(),  ((RadioButton) view.findViewById(regiment.getCheckedRadioButtonId())).getText().toString());
                         pr.push(new Integer(12));
                         setVisibility(0);
                     }
@@ -160,8 +169,13 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.unwell_yes:
-                pr.push(new Integer(0));
-                setVisibility(1);
+                unwell = 1;
+                if(iteration==0||time=="") {
+                    pr.push(new Integer(0));
+                    setVisibility(1);
+                }
+                else
+                 cancelledAlarmAlert();
                 break;
             case R.id.danger_signs_button_yes:
                 pr.push(new Integer(1));
@@ -169,46 +183,35 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.danger_signs_button_no:
                 pr.push(new Integer(1));
+                if(getUser().getInsulinRegiment().equals("Insulin Pen"))
+                {
+                    setVisibility(4);
+                }
+                else{
                 setVisibility(2);
-                ((EditText)view.findViewById(R.id.glucose_input_edit)).setText("");
+                ((EditText)view.findViewById(R.id.glucose_input_edit)).setText("");}
                 break;
             case R.id.unwell_no:
-                pr.push(new Integer(0));
-                previous=0;
-                setVisibility(2);
-                ((EditText)view.findViewById(R.id.glucose_input_edit)).setText("");
-
-                break;
-            case R.id.glucose_next:
-                if(!time.equals("")) {
-                    Calendar current = Calendar.getInstance();
-                    if(current.before( cal ))
-                    {
-                        AlertDialog dialog=new AlertDialog.Builder(getContext())
-                                .setTitle("Alert")
-                                .setMessage("You had to remeasure your blood glucose and insulin at " +time+" . Are you sure you want to proceed before this time? " +
-                                        "If alarm was set, it will be cancelled.")
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        cal=null;
-                                        time="";
-                                        glucoseNext();
-                                        if(notifier!=null)
-                                            notifier.canceled=true;
-                                    }
-                                })
-                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                }).show();
-                    }
+                unwell = 0;
+                if(iteration==0||time=="") {
+                    pr.push(new Integer(0));
+                    setVisibility(2);
                 }
                 else
-                glucoseNext();
-
-
-
+                    cancelledAlarmAlert();
+                break;
+            case R.id.glucose_next:
+                if(iteration==0&&!(getUser().getInsulinRegiment().equals("Insulin Pen")&&unwell==0))
+                {
+                    iteration++;
+                }
+                if(getUser().getInsulinRegiment().equals("Insulin Pen")&&unwell==1){
+                    glucoseNext();
+                    maxSugar=12;
+                }
+                else {
+                        glucoseNext();
+                }
 
                 break;
             case R.id.premeal_yes:
@@ -222,35 +225,38 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.ketones_yes:
                 ketones = 1;
-                if(glucose<12){
-                    ((TextView)view.findViewById(R.id.starvation_ketoacidosis_advise)).setText("This may be starvarion ketoacidosis.Be sure you get enough carbohydrate to eat and drink!");
-                    setVisibility(16);}
-                 else {
-                    if (iteration <2) {
-                        setVisibility(7);
-                    } else {
-                        dosageShow();
-                        setVisibility(8);
-                    }
+                pr.push(new Integer(4));
+                if(getUser().getInsulinRegiment().equals("Insulin Pen")&&unwell==1){
+                 setVisibility(2);
+                }
+                else {
+                   /* if(iteration!=1) {*/
+                        if (getUser().getInsulinRegiment().equals("Insulin Pen"))
+                            maxSugar=17;
+                        else
+                            maxSugar=14;
+                        ProblemClasification(maxSugar);//}
+
+                  /*  else
+                        setVisibility(8);*/
                 }
                 break;
             case R.id.ketones_no:
                 pr.push(new Integer(4));
                 ketones = 0;
-                if(glucose<4){
-                    ((TextView)view.findViewById(R.id.starvation_ketoacidosis_advise)).setText("You are Hypo. Please take fast asting sugar!");
-                    setVisibility(16);
-                }
-                else if(glucose<12)
-                    setVisibility(11);
-                else {
-                    if (iteration <2) {
-                        setVisibility(7);
-                    } else {
-                        dosageShow();
-                        setVisibility(8);
 
-                    }
+                if(getUser().getInsulinRegiment().equals("Insulin Pen")&&unwell==1){
+                    setVisibility(2);
+                }
+                else {
+
+                        if(getUser().getInsulinRegiment().equals("Insulin Pen"))
+                            maxSugar=17;
+                        else
+                            maxSugar=14;
+                        ProblemClasification(maxSugar);
+
+
                 }
                 break;
             case R.id.insulin_next:
@@ -267,15 +273,24 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 }
                 else {
                     pr.push(new Integer(7));
-                    dosageShow();
+                    insulin=Integer.parseInt(((EditText) view.findViewById(R.id.insulin_input_edit)).getText().toString());
+                    ProblemClasification(maxSugar);
                     setVisibility(8);
 
 
                 }
                 break;
             case R.id.dosage_next:
+                if(iteration!=3){
                 pr.push(new Integer(8));
-                setVisibility(9);
+                setVisibility(9);}
+                else {
+                    if(getUser().getInsulinRegiment().equals("Insulin Pump"))
+                        ((TextView)view.findViewById(R.id.danger_advise2)).setText("You have had a high blood glucose and ketones for more than 6 hours, please call emergency or a doctor.");
+                    else
+                        ((TextView)view.findViewById(R.id.danger_advise2)).setText("You have had a high blood glucose and ketones for more than 12 hours, please call emergency or a doctor.");
+                    setVisibility(13);
+                }
                 break;
             case R.id.emergency_contact:
                 pr.push(new Integer(6));
@@ -287,7 +302,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.reminder_yes:
                 pr.push(new Integer(9));
-                setVisibility(2);
+                setVisibility(0);
                 iteration++;
                 final String msg=""+ hours +" hours have passed, please click ok to proceed";
                 //replace 'sound' by your    music/sound
@@ -316,7 +331,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 cal = Calendar.getInstance();
                 cal.add(Calendar.HOUR_OF_DAY, 4);
                 time=validation.timeValidation(cal);
-                setVisibility(2);
+                setVisibility(0);
                 iteration++;
                 break;
             case R.id.premeal_next:
@@ -332,56 +347,108 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void StartAgain()
+    private void cancelledAlarmAlert()
     {
-        ((EditText)view.findViewById(R.id.glucose_input_edit)).setText("");
-        ((EditText) view.findViewById(R.id.insulin_input_edit)).setText("");
-        iteration=0;
-        glucose=0;
-        insulin=0;
-        ketones=0;
+        if(!time.equals("")) {
+            Calendar current = Calendar.getInstance();
+            if(current.before( cal ))
+            {
+                AlertDialog dialog=new AlertDialog.Builder(getContext())
+                        .setTitle("Alert")
+                        .setMessage("You had to remeasure your blood glucose and insulin at " +time+" . Are you sure you want to proceed before this time? " +
+                                "If alarm was set, it will be cancelled.")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                cal = null;
+                                time = "";
+                                if (notifier != null)
+                                    notifier.canceled = true;
+                                if (unwell == 1) {
+                                    pr.push(new Integer(0));
+                                    setVisibility(1);
+                                }
+                                else{
+                                    pr.push(new Integer(0));
+                                    setVisibility(2);
+                                }
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
+            }
+        }
     }
     public User getUser()
     {
         user =myactivity.getUser();
         return user;
     }
-
-    public void glucoseNext()
+    public void ProblemClasification(int glucosePointer)
     {
-        if(((EditText)view.findViewById(R.id.glucose_input_edit)).getText().toString().matches("")){
+
+
+
+            if(glucose<glucosePointer&&ketones>0) {
+                ((TextView)view.findViewById(R.id.starvation_ketoacidosis_advise)).setText("This may be starvation ketosis.Be sure you get enough carbohydrate to eat and drink!");
+                setVisibility(16);
+            }
+            else if(glucose<glucosePointer&&ketones<1)
+            {
+                if(glucose>=4)
+                setVisibility(11);
+                else if(glucose<4){
+                    ((TextView)view.findViewById(R.id.starvation_ketoacidosis_advise)).setText("You are hypo, please follow the hypo protocol");
+                    setVisibility(16);
+                }
+
+            }
+            else{
+                if(iteration==1&&insulin==0)
+                {
+                    setVisibility(7);
+                }
+                else {
+                    if (ketones < 1)
+                        dosageShow("correction");
+                    else
+                        dosageShow("normal");
+
+                    setVisibility(8);
+                }
+
+
+
+        }
+
+    }
+
+
+    public void glucoseNext() {
+        if (((EditText) view.findViewById(R.id.glucose_input_edit)).getText().toString().matches("")) {
             Toast.makeText(getActivity(), "Please don't leave the field blank",
                     Toast.LENGTH_LONG).show();
-        }
-        else if (Float.parseFloat(((EditText)view.findViewById(R.id.glucose_input_edit)).getText().toString())>33.3)
-        {
+        } else if (Float.parseFloat(((EditText) view.findViewById(R.id.glucose_input_edit)).getText().toString()) > 33.3) {
             Toast.makeText(getActivity(), "If your meter identify HI glucose please write 33.3",
                     Toast.LENGTH_LONG).show();
-        }
-        else {
-            pr.push(new Integer(2));
-            glucose=Double.parseDouble(((EditText) view.findViewById(R.id.glucose_input_edit)).getText().toString());
-         /*   if(glucose<10){
-                setVisibility(11);
-            }
-            else {*/
-                if(iteration==0){
-                    if(user.getInsulinRegiment().equals("Insulin Pen")&&glucose>=12)
-                        setVisibility(3);
-                    else {
-                        setVisibility(4);
-                        iteration++;
-                    }
-                }
-                else if(iteration==3) {
-                    if (user.getInsulinRegiment().equals("Insulin Pump")){((TextView)view.findViewById(R.id.danger_advise2)).setText("You have had a high blood glucose and ketones for more than 6 hours, please call emergency or a doctor.");}
-                    else {((TextView)view.findViewById(R.id.danger_advise2)).setText("You have had a high blood glucose and ketones for more than 12 hours, please call emergency or a doctor.");}
+        } else {
 
-                        setVisibility(13);
-                }
-                else
-                    setVisibility(4);
-           // }
+            glucose = Double.parseDouble(((EditText) view.findViewById(R.id.glucose_input_edit)).getText().toString());
+            pr.push(new Integer(2));
+            if (getUser().getInsulinRegiment().equals("Insulin Pen") && unwell == 1) {
+                    maxSugar=12;
+                ProblemClasification(12);
+
+            }
+            else if(getUser().getInsulinRegiment().equals("Insulin Pen")&&unwell==0&&iteration==0&&glucose>=17)
+            {
+                setVisibility(3);
+            }
+            else {
+                setVisibility(4);
+            }
         }
     }
 
@@ -472,27 +539,30 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
 
     //This method is responsible for generating the message about the insulin dosage shown on the screen
-    private void dosageShow()
+    private void dosageShow(String dose)
     {
         insulin=Integer.parseInt(((EditText) view.findViewById(R.id.insulin_input_edit)).getText().toString());
         if(ketones==1&&getUser().getInsulinRegiment().equals("Insulin Pump"))
-        ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("0.0").format(Dosage()) + " units of fast-acting insulin by Insulin Pen.");
+        ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("0.0").format(Dosage(dose)) + " units of fast-acting insulin by Insulin Pen.");
         else
-            ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("0.0").format(Dosage()) + " units of fast-acting insulin");
+            ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("0.0").format(Dosage(dose)) + " units of fast-acting insulin");
     }
 
     //This method is responsiable for calculating the dosage of the insulin
     //according to the formula chosen considering several different values specified
-    private double Dosage()
+    private double Dosage(String type)
     {
         int dosage=0;
-        if(glucose>=17&&ketones==1)
-            dosage=(int) insulin/6;
-        else if((glucose>=17&&ketones==0)||(glucose<17&&glucose>=12)) {
+        if(type.equals("normal"))
+            if(getUser().getInsulinRegiment().equals("Insulin Pump")&&iteration==2)
+                dosage=(int) insulin/12;
+            else
+                dosage=(int) insulin/6;
+        else {
             double divider = (100 / insulin);
             if (divider==0)
                 divider=1;
-            dosage = (int)((glucose - 8) / divider);
+            dosage=(int)((glucose-8)/divider);
         }
         if(dosage>15)
             dosage = 15;
