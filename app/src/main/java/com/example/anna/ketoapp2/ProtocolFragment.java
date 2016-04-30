@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-
 import java.util.Calendar;
 import java.util.Stack;
 /*
@@ -29,19 +27,20 @@ import java.util.Stack;
 * including changing visibility of the layouts within the fragment,
 * populating views with the data, handling user input etc*/
 public class ProtocolFragment extends Fragment implements View.OnClickListener {
-    View view;
+    //Declare application classes needed witin the frafment
     DatabaseHelper db;
     User user;
     AppNotifications notifier;
+    MainActivity myactivity;
+    //Daclare variables needed within the fragment
+    View view;
     int unwell,iteration,ketones,insulin,previous = 0;
     String time="";
     int visibility =12;
     double glucose;
     int maxSugar=0;
-
     Stack pr = new Stack();
-    RelativeLayout layout[]=new RelativeLayout[17];
-    MainActivity myactivity;
+    RelativeLayout layout[]=new RelativeLayout[16];
     InputMethodManager inputMethodManager;
     Calendar cal;
     RadioGroup regiment;
@@ -83,7 +82,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         }
         else
         {
-            //set variables with the values saved on orientation change
+            //set variables with the values saved on orientation change or state change
             iteration=savedInstanceState.getInt("iteration");
             unwell=savedInstanceState.getInt("unwell");
             glucose=savedInstanceState.getDouble("glucose");;
@@ -93,7 +92,6 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             time=savedInstanceState.getString("time");
             pr=(Stack)savedInstanceState.getSerializable("stack");
         }
-
         return view;
     }
 
@@ -147,6 +145,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         String output;
         Validation validation = new Validation();
         switch (v.getId()) {
+            //Code bellow is responsible for the screen change logic within the fragment
             case R.id.profile_correct_next:
                 try {
                     if((output=validation.dateValidation(((EditText) view.findViewById(R.id.age_day)).getText().toString(),((EditText) view.findViewById(R.id.age_month)).getText().toString(),((EditText) view.findViewById(R.id.age_year)).getText().toString()))!=null)
@@ -230,15 +229,12 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                  setVisibility(2);
                 }
                 else {
-                   /* if(iteration!=1) {*/
                         if (getUser().getInsulinRegiment().equals("Insulin Pen"))
                             maxSugar=17;
                         else
                             maxSugar=14;
-                        ProblemClasification(maxSugar);//}
+                        ProblemClasification(maxSugar);
 
-                  /*  else
-                        setVisibility(8);*/
                 }
                 break;
             case R.id.ketones_no:
@@ -305,7 +301,6 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 setVisibility(0);
                 iteration++;
                 final String msg=""+ hours +" hours have passed, please click ok to proceed";
-                //replace 'sound' by your    music/sound
                 final MediaPlayer mediaPlayer = MediaPlayer.create(getContext().getApplicationContext(), R.raw.alarm);
                 AlertDialog dialog=new AlertDialog.Builder(getContext())
                         .setTitle("Alarm")
@@ -324,7 +319,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 cal.add(Calendar.HOUR_OF_DAY, hours);
 
                 time=validation.timeValidation(cal);
-                notifier= new AppNotifications(hours*3000,1000,getContext(),dialog,(TextView)view.findViewById(R.id.timer_text),mediaPlayer);
+                notifier= new AppNotifications(hours*3000,1000,getContext(),dialog,mediaPlayer);
                 break;
             case R.id.reminder_no:
                 pr.push(new Integer(9));
@@ -345,8 +340,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
         }
     }
-
-
+    //Method responsible for getting users permission to proceed with protocol before the the advised time
     private void cancelledAlarmAlert()
     {
         if(!time.equals("")) {
@@ -381,11 +375,15 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
+
+    //Method returnes the current user information
     public User getUser()
     {
-        user =myactivity.getUser();
-        return user;
+        return myactivity.getUser();
+
     }
+
+    //Method responsiable for sequencing of he screens that are changing dependin on user input paramethers or iteration number
     public void ProblemClasification(int glucosePointer)
     {
 
@@ -393,7 +391,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
             if(glucose<glucosePointer&&ketones>0) {
                 ((TextView)view.findViewById(R.id.starvation_ketoacidosis_advise)).setText("This may be starvation ketosis.Be sure you get enough carbohydrate to eat and drink!");
-                setVisibility(16);
+                setVisibility(15);
             }
             else if(glucose<glucosePointer&&ketones<1)
             {
@@ -401,7 +399,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                 setVisibility(11);
                 else if(glucose<4){
                     ((TextView)view.findViewById(R.id.starvation_ketoacidosis_advise)).setText("You are hypo, please follow the hypo protocol");
-                    setVisibility(16);
+                    setVisibility(15);
                 }
 
             }
@@ -411,8 +409,10 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                     setVisibility(7);
                 }
                 else {
+                    //if ketones are negative calculate the correction dose
                     if (ketones < 1)
                         dosageShow("correction");
+                    //if ketones are positive cont the dose of fast actin insulin
                     else
                         dosageShow("normal");
 
@@ -426,6 +426,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    //Method is responsible for the logic of the application on glucose screen next button pressed
     public void glucoseNext() {
         if (((EditText) view.findViewById(R.id.glucose_input_edit)).getText().toString().matches("")) {
             Toast.makeText(getActivity(), "Please don't leave the field blank",
@@ -440,7 +441,6 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             if (getUser().getInsulinRegiment().equals("Insulin Pen") && unwell == 1) {
                     maxSugar=12;
                 ProblemClasification(12);
-
             }
             else if(getUser().getInsulinRegiment().equals("Insulin Pen")&&unwell==0&&iteration==0&&glucose>=17)
             {
@@ -512,8 +512,7 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
         layout[12].setOnTouchListener(focusChange);
         layout[13]=(RelativeLayout)view.findViewById(R.id.part13);
         layout[14]=(RelativeLayout)view.findViewById(R.id.part14);
-        layout[15]=(RelativeLayout)view.findViewById(R.id.part15);
-        layout[16]=(RelativeLayout)view.findViewById(R.id.part16);
+        layout[15]= (RelativeLayout)view.findViewById(R.id.part15);
     }
 
 
@@ -539,13 +538,13 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
 
     //This method is responsible for generating the message about the insulin dosage shown on the screen
-    private void dosageShow(String dose)
+    private void dosageShow(String type)
     {
         insulin=Integer.parseInt(((EditText) view.findViewById(R.id.insulin_input_edit)).getText().toString());
         if(ketones==1&&getUser().getInsulinRegiment().equals("Insulin Pump"))
-        ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("0.0").format(Dosage(dose)) + " units of fast-acting insulin by Insulin Pen.");
+        ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("0.0").format(Dosage(type)) + " units of fast-acting insulin by Insulin Pen.");
         else
-            ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("0.0").format(Dosage(dose)) + " units of fast-acting insulin");
+            ((TextView) view.findViewById(R.id.dosage_text)).setText("Take " + new DecimalFormat("0.0").format(Dosage(type)) + " units of fast-acting insulin");
     }
 
     //This method is responsiable for calculating the dosage of the insulin
@@ -577,7 +576,6 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
                     case R.id.pen:
                         break;
                     case R.id.pump:
-
                         break;
                     default:
                         break;
@@ -592,7 +590,6 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
             inputMethodManager.toggleSoftInputFromWindow(linearLayout.getApplicationWindowToken(), InputMethodManager.SHOW_IMPLICIT, 0);
     }
     //Method that tells not to open the keyboard if not explicitly stated.
-    //TODO:might check if that can be done once
     private void hideKeyboard(RelativeLayout linearLayout) {
 
             inputMethodManager.hideSoftInputFromWindow(linearLayout.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

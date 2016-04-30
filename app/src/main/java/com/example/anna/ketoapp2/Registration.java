@@ -1,36 +1,24 @@
 package com.example.anna.ketoapp2;
 
-import android.app.Activity;
+
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.RelativeLayout;;
 import android.widget.Toast;
-
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Registration extends AppCompatActivity implements View.OnClickListener  {
+    //Declaration of the variables and classes needed within the activity
     EditText dateOfBirthD,dateOfBirthM,dateOfBirthY,username;
     Button registbutton;
     DatabaseHelper db;
@@ -70,10 +58,8 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 switch (checkedId)
                 {
                     case R.id.pen:
-
                         break;
                     case R.id.pump:
-
                         break;
                     default:
                         break;
@@ -83,6 +69,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //Method that is responsiable for changing the focus of the cursor to the next edit text when one edit text is filled
     private void setNextFocus(EditText [] array)
     {
     final EditText [] finalArray= array.clone();;
@@ -146,8 +133,10 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     @Override
     public void onBackPressed() {
+        //if back button pressed terurn to the main activity
         startActivity(new Intent(this, MainActivity.class));
     }
 

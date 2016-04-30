@@ -1,8 +1,5 @@
 package com.example.anna.ketoapp2;
 
-import android.content.Intent;
-import android.widget.RadioButton;
-import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;

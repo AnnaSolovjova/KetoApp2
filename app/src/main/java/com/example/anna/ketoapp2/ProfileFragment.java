@@ -2,11 +2,7 @@ package com.example.anna.ketoapp2;
 
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -16,8 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +21,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,15 +42,12 @@ DatabaseHelper db;
 private View view;
 RadioGroup regiment;
 MainActivity myactivity;
-    public ProfileFragment() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Method initialises classes and layouts components needed for the fragment
         view = inflater.inflate(R.layout.fragment_profile, container, false);
-        ((Button)view.findViewById(R.id.profile_edit_button)).setOnClickListener(this);
-        ((Button)view.findViewById(R.id.profile_del_button)).setOnClickListener(this);
         db=new DatabaseHelper(getActivity());
         Activity activity = getActivity();
         myactivity = (MainActivity) activity;
@@ -66,12 +55,13 @@ MainActivity myactivity;
         return view;
     }
 
+    //Method returns the current users information
     public User getUser()
     {
         return myactivity.getUser();
     }
 
-    //This method populates the views with the data from database
+    //Method populates the views with the data from database
     //when displaying profile
     public void setProfile()
     {
@@ -84,11 +74,11 @@ MainActivity myactivity;
         ((TextView) view.findViewById(R.id.insulin_text)).setText(user.getInsulinRegiment());
         ((TextView) view.findViewById(R.id.age_text)).setText(user.getDateOfBirth().substring(0, 2) + "/" + user.getDateOfBirth().substring(2, 4) + "/" + user.getDateOfBirth().substring(4, 8));
     }
-    //This method populates the views with the data from database
+
+    //Method populates the views with the data from database
     //when displaying edit profile profile
     public void setEditProfile(User user)
     {
-
         regiment=(RadioGroup)view.findViewById(R.id.radioGroup2);
         setRadioButtons(regiment);
         FocusChange focusChange=new FocusChange(getContext());
@@ -97,10 +87,8 @@ MainActivity myactivity;
         ((ImageButton) view.findViewById(R.id.profile_pic_edit)).setImageBitmap(rounder.getCroppedBitmap(user.getProfilePic(),200));
         ((Button)view.findViewById(R.id.profile_edit_comp_button)).setOnClickListener(this);
         ((ImageButton)view.findViewById(R.id.profile_pic_edit)).setOnClickListener(this);
-        ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.insulin_regiment_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((EditText) view.findViewById(R.id.username_edit)).setText(user.getUsername());
+        //check the the appropriate insulin regimen radiobutton
         if(user.getInsulinRegiment().equals("Insulin Pen"))
             regiment.check(R.id.pen);
         else
@@ -184,6 +172,7 @@ MainActivity myactivity;
         });
     }
 
+    //Method profides on back button pressed functionality
     public void myOnKeyDown()
     {
         setViewLayout(R.layout.fragment_profile);
@@ -212,7 +201,7 @@ MainActivity myactivity;
         }
     }
 
-
+    //Method that changes the view within the fragment
     private void setViewLayout(int id){
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(id, null);
@@ -222,10 +211,10 @@ MainActivity myactivity;
         rootView.addView(view);
     }
 
+    //Method that hides the keyboard
     private void hideKeyboard(RelativeLayout linearLayout) {
         InputMethodManager inputMethodManager=(InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(linearLayout.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
     }
 
 }

@@ -22,6 +22,7 @@ import java.util.LinkedList;
 * and the operations connected to this action,
 * including with populating the fragment with dynamically created views*/
 public class SwitchFragment extends Fragment implements View.OnClickListener{
+    //declaration of classes and components needed for fragment's work
     View view;
     DatabaseHelper db;
     MainActivity myactivity;
@@ -29,7 +30,7 @@ public class SwitchFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        //initialisation of classes and componnents
         view = inflater.inflate(R.layout.fragment_switch, container, false);
         ((Button)view.findViewById(R.id.registerbutton)).setOnClickListener(this);
         db=new DatabaseHelper(getActivity());

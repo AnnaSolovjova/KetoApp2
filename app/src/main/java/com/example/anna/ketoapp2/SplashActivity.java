@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+
+//this activity was created for the splash screen however is never used
 public class SplashActivity extends AppCompatActivity {
 
     private static final int SLEEP_TIME = 4 ;

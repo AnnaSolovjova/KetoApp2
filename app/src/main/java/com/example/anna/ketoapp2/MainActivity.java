@@ -1,27 +1,21 @@
 package com.example.anna.ketoapp2;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-
 import java.util.LinkedList;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-//Declare classes
+//Declare java classes used within the activity
 DatabaseHelper database;
 User user;
 //declare the fragments within the activity
@@ -37,6 +31,7 @@ FloatingActionButton fab;
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_main);
                 database = new DatabaseHelper(this);
+                //setup activity components
                 setupToolbar();
                 setupFloatingActionButton();
                 setupTabMenu();
@@ -52,27 +47,28 @@ FloatingActionButton fab;
                     if (protocolFragment!=null)
                     {
                         int i=protocolFragment.iteration;
+                        //Set up the text about the application's cycle to chow within the dialog on users request
                         if(protocolFragment.iteration==0)
                             i=1;
-                        String iteration="This is your "+i+ " correction dose."+System.getProperty("line.separator");
-                        String time= "";
-                        //show time information only if the timer was already set
+                            String iteration="This is your "+i+ " correction dose."+System.getProperty("line.separator");
+                            String time= "";
+                        // set up time information only if the timer was already set
                         if (!(protocolFragment.time.equals("")))
                         {
                            time="You need to check your blood sugar and ketones at " + protocolFragment.time;
                         }
-
-                        AlertDialog dialog=new AlertDialog.Builder(this)
+                        //Build the dialog box with app context information
+                       new AlertDialog.Builder(this)
                                 .setTitle("Info")
                                 .setMessage("" + iteration + time)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                }).show();
+                                    }}).show();
+
                     }
                 break;
             case R.id.menu_start_again:
-                AlertDialog dialog=new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this)
                         .setTitle("Alert")
                         .setMessage("Are you sure you want to start again?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -90,6 +86,7 @@ FloatingActionButton fab;
         }
     }
 
+    //Method initialises and sets up the toolbar
     private void setupToolbar()
     {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -99,6 +96,7 @@ FloatingActionButton fab;
         ((TextView)findViewById(R.id.menu_start_again)).setOnClickListener(this);
 
     }
+    //Method initialises information button
     private void setupFloatingActionButton(){
         fab= (FloatingActionButton) this.findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -115,6 +113,7 @@ FloatingActionButton fab;
                 switch (checkedId) {
                     case R.id.radioAgain:
                         fab.setVisibility(View.VISIBLE);
+                        //initialise fragment needed if it was not initialised before
                         if (protocolFragment == null) {
                             protocolFragment = new ProtocolFragment();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, protocolFragment, "protocol").commit();
@@ -146,26 +145,20 @@ FloatingActionButton fab;
         });
     }
 
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }*/
 
     @Override
     public void onBackPressed() {
-        if (protocolFragment != null && protocolFragment.isVisible()) {
-            // add your code here
-         if(protocolFragment!=null)
+            //call methods responsible for the on back pressed methods depending on the fragment currently displayed
+        if(protocolFragment!=null&& protocolFragment.isVisible())
                 protocolFragment.myOnKeyDown();
-        }
+
         else if (profileFragment!=null && profileFragment.isVisible())
         {
             profileFragment.myOnKeyDown();
         }
-
     }
+
+    //Method responsiable for initialising the call from within the application using phone capabilities
     public void emergencyCall()
     {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -180,21 +173,14 @@ FloatingActionButton fab;
         super.onDestroy();
     }
 
- /*   @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_protocol) {
-
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+    //Method called from within fragment class to start registration activity when user wants to register another user
     public void registerNew(){
         switchFragment=null;
         profileFragment=null;
         protocolFragment=null;
         startActivity(new Intent(this, Registration.class));
     }
+
     //Method that checks which activity should be used first
     //if there are no users registered, the regestration activity should be opened
     //if not this activity should be used
@@ -217,16 +203,20 @@ FloatingActionButton fab;
                 protocolFragment = (ProtocolFragment)getSupportFragmentManager().findFragmentByTag("protocol");
         }
     }
+
+    //Method that is called from within the profile fragment to reset the protocol fragment if the insulin regimen is changed
     public void startAgain()
     {
         protocolFragment=new ProtocolFragment();
     }
 
+    //Method accesses the database and returns the last active user's information.
     public User getUser(){
             user = database.getCurrent();
             return user;
     }
 
+    //Method accesses the database and returns the list of all registered users and their information.
     public LinkedList<User> getUsers(){
         LinkedList<User> users= database.getUsers();
         if(users.size()!=0) {
@@ -248,6 +238,7 @@ FloatingActionButton fab;
 
     }
 
+    //Method shows the dialog box that asks user to confirm if he/she wants to delete the user.
     public void deleteUser(String username)
     {
     final String name=username;
@@ -267,10 +258,15 @@ FloatingActionButton fab;
 
 
     }
+    //Method deletes accesses the database and and asks to delete specified user
     private void deleteConfirmed(String username){
         database.deleteUser(username);
-        if (getUser() == null)
+        if (getUser() == null) {
+            protocolFragment=null;
+            switchFragment=null;
+            profileFragment=null;
             startActivity(new Intent(this, Registration.class));
+        }
         else {
             user = database.getCurrent();
             protocolFragment = new ProtocolFragment();
@@ -278,10 +274,5 @@ FloatingActionButton fab;
         }
     }
 
-
-    public RelativeLayout returnScreen()
-        {
-                return (RelativeLayout)findViewById(R.id.main_screen);
-    }
 
 }

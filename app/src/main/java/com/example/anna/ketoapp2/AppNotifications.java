@@ -14,24 +14,23 @@ import java.io.IOException;
  * Created by Anna on 24/02/2016.
  */
 public class AppNotifications extends CountDownTimer {
-Context context;
-MediaPlayer mediaPlayer;
+
+    Context context;
+    MediaPlayer mediaPlayer;
     AlertDialog dialog;
-    TextView timerText;
     boolean canceled=false;
-    public AppNotifications(int time, int interval,Context context, AlertDialog dialog,TextView timerText,MediaPlayer mediaPlayer){
+
+    public AppNotifications(int time, int interval,Context context, AlertDialog dialog,MediaPlayer mediaPlayer){
         super(time,interval);
         this.context=context;
         this.dialog=dialog;
-        this.timerText=timerText;
         this.start();
         this.mediaPlayer=mediaPlayer;
 
     }
     @Override
     public void onTick(long millisUntilFinished) {
-
-        timerText.setText(String.valueOf(millisUntilFinished / 1000));
+        //Method not used however it is mandatory to override it to extend CountDownTimer functionality
     }
 
 
@@ -39,6 +38,7 @@ MediaPlayer mediaPlayer;
     @Override
     public void onFinish() {
         if(canceled==false) {
+            //When time is finished play sound and open bring the application alarm screen to the top on the mobile phone
             playSound();
             Intent notificationIntent = new Intent(context, MainActivity.class);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

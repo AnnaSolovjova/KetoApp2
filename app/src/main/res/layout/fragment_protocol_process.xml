@@ -893,30 +893,13 @@
             android:textAlignment="center"
             android:padding="10dp"/>
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/part15"
-        android:visibility="invisible"
-        >
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical">
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:text="Hospital"
-                    android:id="@+id/timer_text"
-                    android:textAlignment="center"
-                    style="@style/TextFont"/>
-            </RelativeLayout>
-    </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/part16"
+        android:id="@+id/part15"
         android:visibility="invisible"
         >
         <RelativeLayout

@@ -2,22 +2,15 @@ package com.example.anna.ketoapp2;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.design.widget.TabLayout;
 import android.util.Log;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -42,7 +35,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         try {
             db.execSQL("create table Users( user_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, dateOfBirth TEXT,insulinRegiment TEXT, usage INT, regDateTime DATETIME,profilePic BLOB)");
-            db.execSQL("create table Sessions( username TEXT PRIMARY KEY, insulin INT, iterations INT, screen TEXT, sesDateTime DATETIME");
         }
         catch(SQLException sqle)
         {
@@ -54,7 +46,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists Users" );
-        db.execSQL("drop table if exists Sessions" );
         onCreate(db);
     }
 
@@ -80,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
-    //get user information on username
+    //Method returnes  user's information for the username specified
     public User getUser(String username)
     {
         User user = new User();
@@ -107,7 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
         return user;
     }
-    //Get the list of users
+    //Method returnes the list of users registered in the system
     public LinkedList<User> getUsers()
     {
         LinkedList<User> users = new LinkedList<>();
@@ -135,7 +126,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return users;
     }
 
-    //Method that edits user information using the parameters passed
+    //Method edits user information using the parameters passed for specified username
+    // if profile pisture was changed
     public boolean editUser(String username, String newUsername, String dateOfBirth, String insulinR,Bitmap profilePic)
     {
         boolean success=false;
@@ -157,9 +149,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return success;
     }
 
+    //Method edits user information using the parameters passed for specified username
+    //when the profile picture was not updated
     public boolean editUser(String username, String newUsername, String dateOfBirth, String insulinR)
     {
-        boolean success=false;
+        boolean success = false;
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -177,13 +171,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return success;
     }
 
+    //Method deletes the user data from the system for specified username
     public boolean deleteUser(String username)
     {
-        boolean success=false;
+        boolean success = false;
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             db.delete("Users", "username" + "='" + username + "'", null);
-            deleteSession(username);
+
         }
         catch(SQLException e)
         {
@@ -192,6 +187,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return success;
     }
 
+    //Method returns the int value that represents how many times user opened the application
+    //Usage information is never used within the system however this method could be used for later development
     public int getUsage(String username)
     {
         int pass=0;
@@ -208,7 +205,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return pass;
 
     }
-    //TODO:check that working
+    //The method increses the users usage value by one
+    //Usage information is never used within the system however this method could be used for later development
     public boolean increaseUsage(String username)
     {
         boolean success=false;
@@ -227,42 +225,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return success;
     }
 
-    public void updateSession(String username, int insulin, int iteration, String screen)
-    {
-            boolean success=false;
-             SQLiteDatabase db = this.getWritableDatabase();
-             ContentValues values = new ContentValues();
-            try {
-                values.put("insulin", insulin);
-                values.put("iterations", iteration);
-                values.put("screen", screen);
-                values.put("sesDateTime", "datetime()");
-                Connection conn = DriverManager.getConnection(DATABASE_NAME);
-                if(userExists(username)) {
-                    values.put("insulin", insulin);
-                    values.put("iterations", iteration);
-                    values.put("screen", screen);
-                    values.put("sesDateTime", "datetime()");
-                    db.update("Sessions", values, "username = '" + username + "'", null);
-
-                }
-                else{
-                     values.put("username",username);
-                     db.insert("Sessions",null,values);
-
-                }
-
-            }
-            catch(SQLException e)
-            {
-                Log.d("login", e.toString());
-            } catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-    //Method to get the current user
+    //Method returns information about the user whose account was active last
     public User getCurrent()
     {
         User user = null;
@@ -292,7 +255,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return user;
     }
 
-    //Method updates the registration date to the date when the user used the system for the last time.
+    //Method updates the registration date to the date when the user opened the system for the last time.
     // This is done to know which user information to open next time the application is open
     public void updateCurrent(String username){
         try {
@@ -309,21 +272,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
 
-    public boolean deleteSession(String username)
-    {
-        boolean success=false;
-        try {
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.delete("Sessions", "username" + "='" + username + "'", null);
-        }
-        catch(SQLException e)
-        {
-            Log.d("login", e.toString());
-        }
-        return success;
-    }
 
-    //Method checks if user exists
+
+    //Method returnes the boolean value that identifies if the user with specified username is already registered within the system.
     public boolean userExists(String username)
     {
         boolean exists = false;
@@ -342,7 +293,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     }
 
-    //Inserts the default image for the profile on registration
+    //Method converts the Bitmap image to the format stored in database.
+    //on registration the method corverts the default image
     public ByteArrayOutputStream insertPic(Bitmap pic)
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -353,6 +305,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return out;
     }
 
+    //Method that returnes the String that contains the current DateTime in specified format
     private String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
