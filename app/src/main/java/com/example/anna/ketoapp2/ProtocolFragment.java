@@ -124,14 +124,20 @@ public class ProtocolFragment extends Fragment implements View.OnClickListener {
 
                 setVisibility(previous);
             }
+            else if(previous==2&&getUser().getInsulinRegiment().equals("Insulin Pen")&&unwell==1)
+                insulin=0;
             else if (previous == 3 && iteration ==1)
                 iteration--;
+            else if (previous == 4&&!getUser().getInsulinRegiment().equals("Insulin Pen")&& iteration ==1)
+                {
+                    insulin=0;
+                }
             else if(iteration==1&&!(getUser().getInsulinRegiment().equals("Insulin Pen")&&unwell==0)&&previous ==2)
             {
                 iteration--;
 
             }
-            else if (previous != 100) {
+             if (previous != 100) {
                 setVisibility(previous);
             } else
                 pr.clear();
